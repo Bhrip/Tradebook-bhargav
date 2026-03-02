@@ -87,7 +87,7 @@ input, select, button { font-family: inherit; outline: none; }
 
 /* Layout */
 .layout { display: flex; min-height: 100vh; position: relative; z-index: 10; max-width: 100vw; overflow-x: hidden; }
-.sidebar { width: 260px; flex-shrink: 0; background: var(--s1); border-right: 1px solid var(--b1); backdrop-filter: var(--glass-blur); display: flex; flex-direction: column; position: fixed; top: 0; left: 0; bottom: 0; z-index: 20; transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.sidebar { width: 260px; flex-shrink: 0; background: var(--s1); border-right: 1px solid var(--b1); backdrop-filter: var(--glass-blur); display: flex; flex-direction: column; position: fixed; top: 0; left: 0; bottom: 0; z-index: 20; transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s; }
 .main { margin-left: 260px; flex: 1; display: flex; flex-direction: column; max-width: 100vw; overflow-x: hidden; }
 
 /* Sidebar Nav */
@@ -151,6 +151,7 @@ input, select, button { font-family: inherit; outline: none; }
 .val-acc { color: var(--acc); text-shadow: 0 0 15px var(--acc-glow); }
 
 .oracle-box { background: var(--s2); border: 1px solid var(--b1); border-radius: var(--r); padding: 24px 32px; margin-bottom: 32px; box-shadow: var(--shadow-base); backdrop-filter: blur(20px); display: flex; gap: 24px; align-items: center; transition: all 0.4s; }
+.oracle-box:hover { border-color: var(--b2); }
 .oracle-icon { font-size: 32px; animation: floatOrb 3s infinite alternate ease-in-out; filter: drop-shadow(0 0 10px var(--acc)); }
 .oracle-text { font-size: 15px; font-weight: 600; color: var(--t1); line-height: 1.6; letter-spacing: 0.02em; }
 
@@ -161,7 +162,6 @@ th { padding: 20px 24px; text-align: left; font-size: 11px; font-weight: 700; le
 td { padding: 20px 24px; border-bottom: 1px solid var(--b1); vertical-align: middle; transition: background 0.2s; }
 tbody tr { transition: transform 0.2s, background 0.2s; }
 tbody tr:hover { background: rgba(128,128,128,0.05); transform: scale(1.002); }
-tbody tr.clickable-row { cursor: pointer; }
 tbody tr:last-child td { border-bottom: none; }
 .mono { font-family: var(--mono); font-weight: 500; font-size:15px; }
 
@@ -189,7 +189,7 @@ tbody tr:last-child td { border-bottom: none; }
 .star-rating label { font-size: 28px; color: rgba(128,128,128,0.3); cursor: pointer; transition: all 0.3s; }
 .star-rating input:checked ~ label, .star-rating label:hover, .star-rating label:hover ~ label { color: var(--yel); text-shadow: 0 0 15px rgba(250,204,21,0.6); transform: scale(1.1); }
 
-/* PERFECTED RESTORED DROPDOWN */
+/* RESTORED DROP-DOWN WITH SPEED & BEAUTY */
 .stock-search-wrap { position: relative; }
 .stock-dd { position: absolute; top: calc(100% + 12px); left: 0; right: 0; background: var(--bg); border: 1px solid var(--b1); border-radius: 16px; z-index: 200; max-height: 300px; overflow-y: auto; box-shadow: 0 20px 50px rgba(0,0,0,0.5); backdrop-filter: blur(30px); }
 .stock-item { padding: 16px 24px; cursor: pointer; display: flex; align-items: center; gap: 16px; border-bottom: 1px solid var(--b1); transition: all 0.2s; }
@@ -205,11 +205,11 @@ tbody tr:last-child td { border-bottom: none; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); filter: blur(10px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
 .fade-in { animation: fadeIn 0.5s ease forwards; }
 
-/* BULLETPROOF MOBILE ADAPTATIONS */
+/* BULLETPROOF MOBILE FIX (REMOVED SHADOW LEAK) */
 @media(max-width: 768px) {
   .layout { max-width: 100vw; overflow-x: hidden; } 
-  .sidebar { transform: translateX(-100%); width: 280px; box-shadow: 30px 0 60px rgba(0,0,0,0.9); } 
-  .sidebar.open { transform: none; } 
+  .sidebar { transform: translateX(-100%); width: 280px; box-shadow: none; } /* SHADOW FIXED HERE */
+  .sidebar.open { transform: none; box-shadow: 30px 0 100px rgba(0,0,0,0.9); } 
   .main { margin-left: 0; width: 100vw; max-width: 100vw; overflow-x: hidden; } 
   
   .topbar { margin: 8px 12px 0; padding: 12px 16px; border-radius: 16px; }
@@ -220,7 +220,6 @@ tbody tr:last-child td { border-bottom: none; }
   .page-body { padding: 20px 12px; width: 100%; max-width: 100%; overflow-x: hidden; } 
   h2 { font-size: 24px !important; }
   
-  /* PERFECT 2x2 MOBILE GRID */
   .stats-grid { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 8px; margin-bottom: 24px; width: 100%; perspective: none; } 
   .stat-card { padding: 16px 12px; border-radius: 16px; transform: none !important; min-width: 0; min-height: 100px; display: flex; flex-direction: column; justify-content: center; }
   .stat-lbl { font-size: 10px; letter-spacing: 0.05em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -300,7 +299,7 @@ tbody tr:last-child td { border-bottom: none; }
   <div class="modal-title">Initialize Position</div>
   <div class="form-group" style="margin-top:24px;">
     <div class="stock-search-wrap">
-      <input type="text" class="form-input" id="buy-stock-input" placeholder="Query Ticker (e.g. RELIANCE)" autocomplete="off"/>
+      <input type="text" class="form-input" id="buy-stock-input" placeholder="Search NSE/BSE (e.g. RELIANCE)" autocomplete="off"/>
       <div class="stock-dd" id="buy-stock-dd" style="display:none"></div>
     </div>
   </div>
@@ -399,7 +398,8 @@ const Store = {
     this.rawTxns.sort((a,b) => { let dA = new Date(a.date).getTime(); let dB = new Date(b.date).getTime(); if(dA !== dB) return dA - dB; if(a.type !== b.type) return a.type === 'buy' ? -1 : 1; return a.ts - b.ts; });
     this.rawTxns.forEach(t => {
       if (t.type === 'buy') {
-        if (!this.holdings[t.symbol]) this.holdings[t.symbol] = { qty:0, totalCost:0, avgPrice:0, buys:[] };
+        // FIX: explicitly set symbol here
+        if (!this.holdings[t.symbol]) this.holdings[t.symbol] = { symbol: t.symbol, qty:0, totalCost:0, avgPrice:0, buys:[] };
         let h = this.holdings[t.symbol]; h.totalCost += t.price * t.qty; h.qty += t.qty; h.avgPrice = h.totalCost / h.qty; h.buys.push(t);
       } else if (t.type === 'sell') {
         let h = this.holdings[t.symbol]; if (!h || h.qty <= 0) return;
@@ -441,6 +441,7 @@ async function fetchPrice(symbol) {
   } catch(e) {} delete PRICE_PENDING[symbol]; return null; 
 }
 
+// ENHANCED INR FORMATTER (Wraps with .money for Ghost Mode)
 const INR = (n, forceSign=false) => n==null||isNaN(n)?'—':`<span class="money">${forceSign&&n>=0?'+':''}${n<0?'-':''}₹${Math.abs(n).toLocaleString('en-IN', {minimumFractionDigits:2,maximumFractionDigits:2})}</span>`;
 const DT = (d) => d?new Date(d+'T00:00:00').toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'2-digit'}):'—';
 const pnlClass = (n) => n>0?'val-up':'val-dn'; 
@@ -584,14 +585,14 @@ async function renderPortfolio() {
 function renderTrades() {
   const el = document.getElementById('page-trades'); const sortedRaw = [...Store.rawTxns].sort((a,b)=>b.ts-a.ts);
   el.innerHTML = `
-    <div style="font-size:12px; color:var(--t2); margin-bottom:16px; font-weight:600;">Tap matrix to edit parameters</div>
-    <div class="tbl-wrap"><table><thead><tr><th>Action</th><th>Asset</th><th>Date</th><th>Price</th><th>Volume</th><th>Grade</th></tr></thead>
+    <div class="tbl-wrap"><table><thead><tr><th>Action</th><th>Asset</th><th>Date</th><th>Price</th><th>Volume</th><th>Grade</th><th>Manage</th></tr></thead>
     <tbody>${sortedRaw.map(t=>{
-      return `<tr class="clickable-row" onclick="openEdit(${t.ts})">
+      return `<tr>
         <td><span class="badge ${t.type==='buy'?'badge-buy':'badge-sell'}">${t.type}</span></td>
         <td><div style="font-weight:800;">${t.symbol}</div></td>
         <td class="mono">${DT(t.date)}</td><td class="mono">${INR(t.price)}</td><td class="mono">${t.qty}</td>
         <td style="color:var(--yel); font-size:14px; letter-spacing:2px;">${t.type==='buy' ? '★'.repeat(t.conviction||0) : '—'}</td>
+        <td><button class="btn btn-ghost btn-sm" onclick="openEdit(${t.ts})">⚙️ Edit</button></td>
       </tr>`;
     }).join('')}</tbody></table></div>`;
 }
