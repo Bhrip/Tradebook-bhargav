@@ -66,7 +66,7 @@
   --overlay-bg: rgba(255,255,255,0.8);
 }
 
-/* GHOST MODE & REFINED ANIMATIONS */
+/* GHOST MODE & ANIMATIONS */
 .ghost-mode .money { filter: blur(8px); opacity: 0.6; pointer-events: none; user-select: none; }
 .money { transition: filter 0.3s ease, opacity 0.3s ease; display: inline-block; }
 
@@ -93,6 +93,7 @@ input, select, button { font-family: inherit; outline: none; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--b2); border-radius: 10px; }
 
+/* Layout */
 .layout { display: flex; min-height: 100vh; position: relative; z-index: 10; max-width: 100vw; overflow-x: hidden; }
 .sidebar { width: 260px; flex-shrink: 0; background: var(--s1); border-right: 1px solid var(--b1); backdrop-filter: var(--glass-blur); display: flex; flex-direction: column; position: fixed; top: 0; left: 0; bottom: 0; z-index: 20; transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s; }
 .main { margin-left: 260px; flex: 1; display: flex; flex-direction: column; max-width: 100vw; overflow-x: hidden; }
@@ -110,6 +111,7 @@ input, select, button { font-family: inherit; outline: none; }
 
 .topbar { margin: 24px 32px 0; padding: 16px 24px; border-radius: var(--r); border: 1px solid var(--b1); background: var(--s1); backdrop-filter: var(--glass-blur); display: flex; align-items: center; justify-content: space-between; position: sticky; top: 24px; z-index: 15; box-shadow: var(--shadow-base); transition: all 0.4s; }
 
+/* Buttons */
 .btn { padding: 12px 24px; border-radius: var(--r-sm); font-size: 13px; font-weight: 700; border: 1px solid transparent; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.3s ease; cursor: pointer; color:#fff; position: relative; overflow: hidden; }
 .btn:active { transform: scale(0.94); } 
 [data-theme="aurora"] .btn-primary { background: linear-gradient(135deg, #3b82f6, #8b5cf6); box-shadow: 0 4px 15px rgba(59,130,246,0.3); }
@@ -121,13 +123,16 @@ input, select, button { font-family: inherit; outline: none; }
 [data-theme="hologram"] .btn-primary { background: linear-gradient(270deg, var(--acc), var(--purp), var(--acc)); background-size: 200% 200%; animation: liquidShift 3s ease infinite; box-shadow: 0 8px 25px rgba(168,85,247,0.4); }
 [data-theme="hologram"] .btn-success { background: linear-gradient(270deg, var(--grn), #059669, var(--grn)); background-size: 200% 200%; animation: liquidShift 3s ease infinite; box-shadow: 0 8px 25px var(--grn-glow); }
 [data-theme="hologram"] .btn-danger { background: linear-gradient(270deg, var(--red), #e11d48, var(--red)); background-size: 200% 200%; animation: liquidShift 3s ease infinite; box-shadow: 0 8px 25px var(--red-glow); }
+
 @keyframes liquidShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 .btn-ghost { background: var(--s1); color: var(--t1); border: 1px solid var(--b1); }
 .btn-ghost:hover { background: var(--s2); border-color: var(--t2); }
 .btn-sm { padding: 10px 16px; font-size: 12px; }
 .btn-ico { padding: 10px; border-radius: 50%; width: 40px; height: 40px; }
 
+/* Dashboard Cards */
 .page-body { padding: 40px 32px; max-width: 1400px; margin: 0 auto; width: 100%; animation: fadeIn 0.5s ease forwards; overflow-x: hidden; }
+
 [data-theme="aurora"] .stats-grid, [data-theme="light"] .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; margin-bottom: 40px; }
 [data-theme="hologram"] .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; margin-bottom: 40px; perspective: 1000px; }
 
@@ -142,6 +147,7 @@ input, select, button { font-family: inherit; outline: none; }
 .val-up { color: var(--grn); text-shadow: 0 0 15px var(--grn-glow); }
 .val-dn { color: var(--red); text-shadow: 0 0 15px var(--red-glow); }
 .val-acc { color: var(--acc); text-shadow: 0 0 15px var(--acc-glow); }
+.val-purp { color: var(--purp); text-shadow: 0 0 15px rgba(168,85,247,0.4); }
 
 .oracle-box { background: var(--s2); border: 1px solid var(--b1); border-radius: var(--r); padding: 24px 32px; margin-bottom: 32px; box-shadow: var(--shadow-base); backdrop-filter: blur(20px); display: flex; gap: 24px; align-items: center; transition: all 0.4s; }
 .oracle-box:hover { border-color: var(--b2); }
@@ -163,6 +169,7 @@ tbody tr:last-child td { border-bottom: none; }
 .badge { display: inline-flex; align-items: center; padding: 6px 12px; border-radius: 8px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; box-shadow: inset 0 0 10px rgba(255,255,255,0.05); }
 .badge-buy { background: var(--grn-d); color: var(--grn); border: 1px solid rgba(16,185,129,0.4); }
 .badge-sell { background: var(--red-d); color: var(--red); border: 1px solid rgba(244,63,94,0.4); }
+.badge-impact { background: linear-gradient(90deg, var(--purp), var(--acc)); color: #fff; border: none; font-size: 11px; padding: 6px 14px; box-shadow: 0 0 15px rgba(168,85,247,0.4); }
 
 .market-controls { display: flex; gap: 12px; margin-bottom: 24px; }
 .market-btn { background: rgba(128,128,128,0.1); border: 1px solid var(--b1); color: var(--t2); padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
@@ -176,6 +183,7 @@ tbody tr:last-child td { border-bottom: none; }
 .pulse-anim { animation: dataPulse 0.5s ease-out; }
 @keyframes dataPulse { 0% { filter: brightness(2); transform: scale(1.05); } 100% { filter: brightness(1); transform: scale(1); } }
 
+/* Modals */
 .overlay { position: fixed; inset: 0; background: var(--overlay-bg); z-index: 100; display: flex; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(15px); animation: fadeIn 0.3s ease; }
 .modal { background: var(--bg); border: 1px solid var(--b1); border-radius: 32px; padding: 40px; width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto; position: relative; box-shadow: 0 30px 80px rgba(0,0,0,0.8); }
 .modal-close { position: absolute; top: 24px; right: 24px; background: rgba(128,128,128,0.1); border: 1px solid var(--b1); color: var(--t2); width: 40px; height: 40px; border-radius: 50%; font-size: 18px; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; cursor:pointer;}
@@ -191,18 +199,16 @@ tbody tr:last-child td { border-bottom: none; }
 .star-rating label { font-size: 28px; color: rgba(128,128,128,0.3); cursor: pointer; transition: all 0.3s; }
 .star-rating input:checked ~ label, .star-rating label:hover, .star-rating label:hover ~ label { color: var(--yel); text-shadow: 0 0 15px rgba(250,204,21,0.6); transform: scale(1.1); }
 
+/* ZERO-LATENCY DIRECT SEARCH BAR */
 .stock-search-wrap { position: relative; }
 .stock-dd { position: absolute; top: calc(100% + 12px); left: 0; right: 0; background: var(--bg); border: 1px solid var(--b1); border-radius: 16px; z-index: 200; max-height: 300px; overflow-y: auto; box-shadow: 0 20px 50px rgba(0,0,0,0.8); backdrop-filter: blur(30px); }
 .stock-item { padding: 16px 24px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 16px; border-bottom: 1px solid rgba(128,128,128,0.1); transition: all 0.2s; }
 .stock-item:hover { background: rgba(128,128,128,0.1); padding-left: 32px; }
-.stock-item .sym { font-family: var(--mono); font-size: 15px; font-weight: 800; color: var(--acc); min-width: 90px; }
 
 .chart-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; margin-bottom: 40px; }
 .chart-card { background: var(--s1); border: 1px solid var(--b1); border-radius: var(--r); padding: 32px; box-shadow: var(--shadow-base); backdrop-filter: var(--glass-blur); }
 .chart-title { font-size: 15px; font-weight: 700; color: var(--t1); margin-bottom: 24px; letter-spacing: 0.05em; text-transform: uppercase;}
-.live-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--acc); animation: pulse 2s infinite; margin-right: 10px; box-shadow: 0 0 15px var(--acc); }
 
-@keyframes pulse { 0% { transform: scale(0.95); opacity: 1; } 50% { transform: scale(1.3); opacity: 0.5; } 100% { transform: scale(0.95); opacity: 1; } }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); filter: blur(5px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
 .fade-in { animation: fadeIn 0.5s ease forwards; }
 
@@ -217,13 +223,11 @@ tbody tr:last-child td { border-bottom: none; }
   .mob-menu-btn { display: block; background: rgba(128,128,128,0.1); border: 1px solid var(--b1); color: var(--t1); font-size: 14px; font-weight:700; cursor: pointer; padding: 8px 12px; border-radius: 12px; }
   .page-body { padding: 20px 12px; width: 100%; max-width: 100%; overflow-x: hidden; } 
   h2 { font-size: 24px !important; }
-  
   .stats-grid { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 8px; margin-bottom: 24px; width: 100%; perspective: none; } 
   .stat-card { padding: 16px 12px; border-radius: 16px; transform: none !important; min-width: 0; min-height: 100px; display: flex; flex-direction: column; justify-content: center; }
   .stat-lbl { font-size: 10px; letter-spacing: 0.05em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .stat-val { font-size: 18px; margin-top: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: -0.5px; transform:none !important;}
   .stat-sub { font-size: 10px; margin-top: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  
   .oracle-box { flex-direction: column; align-items: flex-start; padding: 16px; border-radius: 16px; gap:12px; width: 100%; }
   .chart-grid { grid-template-columns: 1fr; gap: 16px; width: 100%; } 
   .form-row { grid-template-columns: 1fr; gap: 16px; }
@@ -263,6 +267,7 @@ tbody tr:last-child td { border-bottom: none; }
     <a class="active" data-page="dashboard"><span class="ico">◒</span>Dashboard</a>
     <a data-page="portfolio"><span class="ico">◉</span>Holdings</a>
     <a data-page="market"><span class="ico">▤</span>Market Map</a>
+    <a data-page="impact"><span class="ico">🏛️</span>Capital Impact</a>
     <a data-page="pnl"><span class="ico">💰</span>P&L Book</a>
     <a data-page="analytics"><span class="ico">◎</span>Analytics</a>
     <a data-page="trades"><span class="ico">◈</span>Ledger</a>
@@ -288,6 +293,7 @@ tbody tr:last-child td { border-bottom: none; }
   <div id="page-dashboard" class="page-body fade-in"></div>
   <div id="page-portfolio" class="page-body fade-in" style="display:none"></div>
   <div id="page-market" class="page-body fade-in" style="display:none"></div>
+  <div id="page-impact" class="page-body fade-in" style="display:none"></div>
   <div id="page-pnl" class="page-body fade-in" style="display:none"></div>
   <div id="page-analytics" class="page-body fade-in" style="display:none"></div>
   <div id="page-trades" class="page-body fade-in" style="display:none"></div>
@@ -341,27 +347,6 @@ tbody tr:last-child td { border-bottom: none; }
 </div>
 </div>
 
-<div class="overlay" id="avg-modal" style="display:none" onclick="if(event.target===this)closeAvg()">
-<div class="modal">
-  <button class="modal-close" onclick="closeAvg()">✕</button>
-  <div class="modal-title">🧮 Averaging Simulator</div>
-  <div class="modal-sub" id="avg-sub" style="color:var(--t2); font-size:13px;">Calculate hypothetical new positions.</div>
-  <input type="hidden" id="avg-sym"/> <input type="hidden" id="avg-cur-qty"/> <input type="hidden" id="avg-cur-price"/>
-  
-  <div class="form-row" style="margin-top:24px;">
-    <div class="form-group"><label>If I buy (Units)...</label><input type="number" class="form-input mono" id="avg-add-qty" placeholder="e.g. 100"/></div>
-    <div class="form-group"><label>At Price (₹)...</label><input type="number" class="form-input mono" id="avg-add-price" placeholder="0.00" step="0.01"/></div>
-  </div>
-  
-  <div style="background:rgba(128,128,128,0.1); padding:20px; border-radius:16px; border:1px solid var(--b1); margin-top:12px;">
-    <div style="font-size:11px; color:var(--t2); text-transform:uppercase; margin-bottom:8px; font-weight:700;">Projected New Average Cost</div>
-    <div id="avg-result-price" class="mono" style="font-size:32px; font-weight:800; color:var(--acc);">₹0.00</div>
-    <div style="font-size:12px; color:var(--t3); margin-top:8px;" id="avg-result-cap">Requires ₹0.00 capital</div>
-  </div>
-  <div class="modal-footer"><button class="btn btn-ghost" onclick="closeAvg()">Close Simulator</button></div>
-</div>
-</div>
-
 <div class="overlay" id="edit-modal" style="display:none" onclick="if(event.target===this)closeEdit()">
 <div class="modal">
   <button class="modal-close" onclick="closeEdit()">✕</button>
@@ -395,9 +380,15 @@ nameEl.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDe
 let isGhostMode = false;
 
 const Store = {
-  rawTxns: [], holdings: {}, closedTrades: [],
-  load() { try { const d = JSON.parse(localStorage.getItem('tb_v4')); if(d) this.rawTxns = d.rawTxns || []; } catch(e) {} this.rebuildLedger(); },
-  save() { localStorage.setItem('tb_v4', JSON.stringify({ rawTxns: this.rawTxns })); },
+  rawTxns: [], holdings: {}, closedTrades: [], baseCapital: 100000,
+  load() { 
+    try { 
+      const d = JSON.parse(localStorage.getItem('tb_v4')); 
+      if(d) { this.rawTxns = d.rawTxns || []; this.baseCapital = d.baseCapital || 100000; }
+    } catch(e) {} 
+    this.rebuildLedger(); 
+  },
+  save() { localStorage.setItem('tb_v4', JSON.stringify({ rawTxns: this.rawTxns, baseCapital: this.baseCapital })); },
   rebuildLedger() {
     this.holdings = {}; this.closedTrades = [];
     this.rawTxns.sort((a,b) => { let dA = new Date(a.date).getTime(); let dB = new Date(b.date).getTime(); if(dA !== dB) return dA - dB; if(a.type !== b.type) return a.type === 'buy' ? -1 : 1; return a.ts - b.ts; });
@@ -412,8 +403,11 @@ const Store = {
         let isIntraday = false; let holdDays = 0;
         if(t.date === firstBuy.date) { isIntraday = true; holdDays = 0; }
         else { holdDays = Math.max(1, Math.ceil((new Date(t.date) - new Date(firstBuy.date)) / 86400000)); }
+        
+        let tradeValue = h.avgPrice * sellQty; // Actual capital size of the trade
+
         h.qty -= sellQty; h.totalCost -= (h.avgPrice * sellQty);
-        this.closedTrades.push({ symbol: t.symbol, openDate: firstBuy.date, closedDate: t.date, totalPnl: pnl, pct: pct, isPartial: h.qty > 0, holdDays, isIntraday, tag: firstBuy.tag || 'Other', conviction: firstBuy.conviction || 3, refTs: t.ts });
+        this.closedTrades.push({ symbol: t.symbol, openDate: firstBuy.date, closedDate: t.date, tradeValue: tradeValue, totalPnl: pnl, pct: pct, isPartial: h.qty > 0, holdDays, isIntraday, tag: firstBuy.tag || 'Other', conviction: firstBuy.conviction || 3, refTs: t.ts });
         if (h.qty <= 0) delete this.holdings[t.symbol];
       }
     });
@@ -426,24 +420,36 @@ const Store = {
 };
 Store.load();
 
+window.updateBaseCap = function(val) {
+  const num = parseFloat(val);
+  if(!isNaN(num) && num > 0) { Store.baseCapital = num; Store.save(); renderPage('impact'); }
+};
+
+// ZERO-LATENCY DIRECT API (No more allorigins proxy for search!)
 let searchTimer = null;
 async function searchNSE(query) { 
   const q = query.toUpperCase().trim(); if (!q) return []; 
   try { 
-    const url = encodeURIComponent(`https://query2.finance.yahoo.com/v1/finance/search?q=${q}&quotesCount=8&country=India`);
-    let res = await fetch(`https://corsproxy.io/?${url}`).catch(() => fetch(`https://api.allorigins.win/raw?url=${url}`));
+    const res = await fetch(`https://query2.finance.yahoo.com/v1/finance/search?q=${encodeURIComponent(q)}&quotesCount=6&country=India`);
     const data = await res.json(); 
     if (data && data.quotes) return data.quotes.filter(q => q.exchange === 'NSI' || q.exchange === 'BSE' || (q.symbol && q.symbol.endsWith('.NS'))).map(q => ({ symbol: q.symbol.replace('.NS', '').replace('.BO', ''), name: q.shortname || q.longname || q.symbol, exchange: q.exchange === 'BSE' ? 'BSE' : 'NSE' })); 
-  } catch (e) {} return []; 
+  } catch (e) {
+    // Failsafe
+    try {
+      const res2 = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(`https://query2.finance.yahoo.com/v1/finance/search?q=${q}&quotesCount=6&country=India`)}`);
+      const data2 = await res2.json();
+      return data2.quotes.filter(q => q.exchange === 'NSI' || q.exchange === 'BSE' || (q.symbol && q.symbol.endsWith('.NS'))).map(q => ({ symbol: q.symbol.replace('.NS', '').replace('.BO', ''), name: q.shortname || q.longname || q.symbol, exchange: q.exchange === 'BSE' ? 'BSE' : 'NSE' }));
+    } catch(err){}
+  } return []; 
 }
 
 const PRICE_CACHE = {}, PRICE_PENDING = {};
 async function fetchPrice(symbol) { 
   const yahooSym = symbol + '.NS'; if (PRICE_CACHE[symbol] && (Date.now() - PRICE_CACHE[symbol].ts) < 60000) return PRICE_CACHE[symbol].price; if (PRICE_PENDING[symbol]) return null; PRICE_PENDING[symbol] = true; 
   try { 
-    const url = encodeURIComponent(`https://query1.finance.yahoo.com/v8/finance/chart/${yahooSym}?interval=1d&range=1d`);
-    const res = await fetch(`https://corsproxy.io/?${url}`).catch(() => fetch(`https://api.allorigins.win/raw?url=${url}`));
-    const price = (await res.json())?.chart?.result?.[0]?.meta?.regularMarketPrice; 
+    const res = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${yahooSym}?interval=1d&range=1d`);
+    const data = await res.json();
+    const price = data?.chart?.result?.[0]?.meta?.regularMarketPrice; 
     if (price) { PRICE_CACHE[symbol] = { price, ts: Date.now() }; delete PRICE_PENDING[symbol]; return price; } 
   } catch(e) {} delete PRICE_PENDING[symbol]; return null; 
 }
@@ -483,8 +489,8 @@ document.addEventListener('click', (e) => { const sidebar = document.getElementB
 
 function renderPage(page) {
   if(page==='dashboard') renderDashboard(); if(page==='portfolio') renderPortfolio();
-  if(page==='market') renderMarketMap(); if(page==='pnl') renderPnl(); if(page==='trades') renderTrades(); 
-  if(page==='analytics') renderAnalytics(); if(page==='settings') renderSettings();
+  if(page==='market') renderMarketMap(); if(page==='impact') renderImpact(); if(page==='pnl') renderPnl(); 
+  if(page==='analytics') renderAnalytics(); if(page==='trades') renderTrades(); if(page==='settings') renderSettings();
   document.getElementById('sb-stats').textContent = `${Object.keys(Store.holdings).length} POSITIONS`;
 }
 
@@ -530,7 +536,7 @@ async function generateFlexCard() {
   });
 }
 
-// --- RISK CALCULATOR LOGIC ---
+// RISK CALCULATOR LOGIC
 let currentRiskDir = 'long';
 window.setRiskDir = function(dir) {
   currentRiskDir = dir;
@@ -547,54 +553,32 @@ window.setRiskDir = function(dir) {
 };
 
 window.calculateRisk = function() {
-  const capInput = document.getElementById('risk-capital');
-  if(!capInput) return;
-
-  const capital = parseFloat(capInput.value);
-  const leverage = parseFloat(document.getElementById('risk-leverage').value) || 1;
-  const entry = parseFloat(document.getElementById('risk-entry').value);
-  const maxloss = parseFloat(document.getElementById('risk-maxloss').value);
+  const capInput = document.getElementById('risk-capital'); if(!capInput) return;
+  const capital = parseFloat(capInput.value); const leverage = parseFloat(document.getElementById('risk-leverage').value) || 1;
+  const entry = parseFloat(document.getElementById('risk-entry').value); const maxloss = parseFloat(document.getElementById('risk-maxloss').value);
   const brokerage = parseFloat(document.getElementById('risk-brokerage').value) || 0;
-
-  const errEl = document.getElementById('risk-error');
-  const succEl = document.getElementById('risk-success');
+  const errEl = document.getElementById('risk-error'); const succEl = document.getElementById('risk-success');
 
   if (!capital || !entry || !maxloss || capital <= 0 || entry <= 0 || maxloss <= 0) {
     errEl.innerHTML = '⚠ Enter valid numbers.'; errEl.style.display = 'block'; succEl.style.display = 'none'; return;
   }
-
-  // Total Buying Power = Capital * Leverage
-  const buyingPower = capital * leverage;
-  const qty = Math.floor(buyingPower / entry);
-  
+  const buyingPower = capital * leverage; const qty = Math.floor(buyingPower / entry);
   if (qty < 1) { errEl.innerHTML = '⚠ Buying Power too low for 1 share.'; errEl.style.display = 'block'; succEl.style.display = 'none'; return; }
-
-  const positionSize = qty * entry;
-  const marginImpact = positionSize / leverage;
+  const positionSize = qty * entry; const marginImpact = positionSize / leverage;
   const netLossBudget = maxloss - (2 * brokerage);
-  
   if (netLossBudget <= 0) { errEl.innerHTML = '⚠ Max loss must exceed brokerage.'; errEl.style.display = 'block'; succEl.style.display = 'none'; return; }
 
-  const riskPerShare = netLossBudget / qty;
-  let slPrice;
-
+  const riskPerShare = netLossBudget / qty; let slPrice;
   if (currentRiskDir === 'long') {
     slPrice = entry - riskPerShare;
     if (slPrice <= 0) { errEl.innerHTML = '⚠ SL price <= 0. Reduce size.'; errEl.style.display = 'block'; succEl.style.display = 'none'; return; }
-  } else {
-    slPrice = entry + riskPerShare;
-  }
+  } else { slPrice = entry + riskPerShare; }
 
-  const slDrop = Math.abs(entry - slPrice);
-  const slPct = (slDrop / entry) * 100;
-  const capitalRiskPct = (maxloss / capital) * 100;
+  const slDrop = Math.abs(entry - slPrice); const slPct = (slDrop / entry) * 100; const capitalRiskPct = (maxloss / capital) * 100;
 
-  errEl.style.display = 'none';
-  succEl.style.display = 'block';
-
+  errEl.style.display = 'none'; succEl.style.display = 'block';
   document.getElementById('risk-sl-price').innerHTML = INR(slPrice, false);
   document.getElementById('risk-sl-drop').innerHTML = (currentRiskDir === 'long' ? '▼ ' : '▲ ') + INR(slDrop, false) + ` (${slPct.toFixed(2)}%)`;
-
   document.getElementById('risk-qty').textContent = qty;
   document.getElementById('risk-pos-size').innerHTML = INR(positionSize, false);
   document.getElementById('risk-margin-impact').innerHTML = INR(marginImpact, false);
@@ -602,21 +586,16 @@ window.calculateRisk = function() {
   document.getElementById('risk-per-share').innerHTML = INR(riskPerShare, false);
   document.getElementById('risk-pct').textContent = capitalRiskPct.toFixed(2) + '%';
   
-  const bar = document.getElementById('risk-bar');
-  const barPct = Math.min(capitalRiskPct * 5, 100);
-  bar.style.width = barPct + '%';
-  
+  const bar = document.getElementById('risk-bar'); const barPct = Math.min(capitalRiskPct * 5, 100); bar.style.width = barPct + '%';
   let tip = ''; let tipColor = '';
   if (capitalRiskPct <= 1) { tip = `<strong>Elite Discipline:</strong> Risking ${capitalRiskPct.toFixed(2)}%. Well within the 1% pro rule.`; tipColor = 'var(--grn)'; bar.style.background = 'linear-gradient(90deg, var(--grn), var(--yel))'; } 
   else if (capitalRiskPct <= 2) { tip = `<strong>Good Management:</strong> ${capitalRiskPct.toFixed(2)}% risk is acceptable.`; tipColor = 'var(--yel)'; bar.style.background = 'linear-gradient(90deg, var(--grn), var(--yel))'; } 
   else { tip = `<strong>⚠ High Risk:</strong> ${capitalRiskPct.toFixed(2)}% exceeds safe limits. Reduce size.`; tipColor = 'var(--red)'; bar.style.background = 'linear-gradient(90deg, var(--yel), var(--red))'; }
-  
-  const tipEl = document.getElementById('risk-tip');
-  tipEl.innerHTML = tip; tipEl.style.borderLeftColor = tipColor; 
-  tipEl.style.background = tipColor === 'var(--red)' ? 'var(--red-d)' : tipColor === 'var(--yel)' ? 'var(--yel-d)' : 'var(--grn-d)';
+  const tipEl = document.getElementById('risk-tip'); tipEl.innerHTML = tip; tipEl.style.borderLeftColor = tipColor; tipEl.style.background = tipColor === 'var(--red)' ? 'var(--red-d)' : tipColor === 'var(--yel)' ? 'var(--yel-d)' : 'var(--grn-d)';
 };
 
-let equityChart = null, mcChart = null, distChart = null;
+// --- TABS ---
+let equityChart = null;
 async function renderDashboard() {
   const el = document.getElementById('page-dashboard'), holdings = Object.values(Store.holdings), ct = Store.closedTrades;
   const realPnl = Store.totalRealizedPnl(), invested = Store.totalInvested(), wins = ct.filter(t=>t.totalPnl>0).length, winRate = ct.length>0?(wins/ct.length*100):0;
@@ -627,80 +606,42 @@ async function renderDashboard() {
       <div><h2 style="font-size: 38px; font-weight: 800; letter-spacing: -1.5px;">Welcome, ${myName}.</h2></div>
       <button class="btn btn-ghost" onclick="generateFlexCard()" style="border-radius:20px; box-shadow:var(--shadow-base);">📸 Share Edge</button>
     </div>
-    
     <div class="oracle-box"><div class="oracle-icon">✧</div><div class="oracle-text">${generateOracleInsights()}</div></div>
-    
     <div class="stats-grid">
       <div class="stat-card"><div class="stat-lbl" style="color:var(--acc)">Active Capital</div><div class="stat-val val-acc" id="dash-inv">${INR(invested)}</div><div class="stat-sub">${holdings.length} active assets</div></div>
       <div class="stat-card"><div class="stat-lbl" style="color:${realPnl>=0?'var(--grn)':'var(--red)'}">Realized Yield</div><div class="stat-val ${pnlGlowClass(realPnl)}" id="dash-real">${INR(realPnl,true)}</div><div class="stat-sub">${ct.length} closed trades</div></div>
       <div class="stat-card"><div class="stat-lbl" style="color:var(--grn)">Win Rate</div><div class="stat-val">${winRate.toFixed(1)}%</div><div class="stat-sub">${wins}W / ${ct.length-wins}L</div></div>
       <div class="stat-card"><div class="stat-lbl" style="color:var(--yel)">Floating P&L</div><div class="stat-val" id="dash-unreal">...</div><div class="stat-sub">Live Link</div></div>
     </div>
-
     <div class="chart-card" style="margin-bottom: 40px; padding: 24px;">
       <div class="chart-title" style="margin-bottom: 24px;">⚡ Position Sizer & Risk Calculator</div>
       <div class="risk-calc-grid">
         <div>
-          <div class="form-group" style="margin-bottom: 16px;">
-            <div style="display:flex; background:rgba(128,128,128,0.1); padding:4px; border-radius:12px; border:1px solid var(--b1);">
-              <button id="risk-dir-long" class="btn btn-ghost" style="flex:1; border:1px solid rgba(16,185,129,0.3); box-shadow:none; background:var(--grn-d); color:var(--grn);" onclick="setRiskDir('long')">▲ LONG</button>
-              <button id="risk-dir-short" class="btn btn-ghost" style="flex:1; border:1px solid transparent; box-shadow:none;" onclick="setRiskDir('short')">▼ SHORT</button>
-            </div>
-          </div>
-          <div class="form-row" style="margin-bottom: 16px; gap:12px;">
-            <div class="form-group" style="margin:0;"><label>My Capital</label><input type="number" id="risk-capital" class="form-input mono" value="100000" oninput="calculateRisk()"></div>
-            <div class="form-group" style="margin:0;"><label>Entry Price</label><input type="number" id="risk-entry" class="form-input mono" value="500" oninput="calculateRisk()"></div>
-          </div>
-          <div class="form-row" style="margin-bottom: 16px; gap:12px;">
-            <div class="form-group" style="margin:0;"><label>Max Loss (₹)</label><input type="number" id="risk-maxloss" class="form-input mono" value="2000" oninput="calculateRisk()"></div>
-            <div class="form-group" style="margin:0;"><label>Brokerage</label><input type="number" id="risk-brokerage" class="form-input mono" value="40" oninput="calculateRisk()"></div>
-          </div>
-          <div class="form-group" style="margin-bottom: 16px;">
-            <label>Margin Multiplier</label>
-            <select id="risk-leverage" class="form-input mono" onchange="calculateRisk()">
-              <option value="1">1x (CNC / Delivery)</option>
-              <option value="2">2x (Margin MTF)</option>
-              <option value="4">4x (Bracket Order)</option>
-              <option value="5" selected>5x (MIS / Intraday)</option>
-            </select>
-          </div>
+          <div class="form-group" style="margin-bottom: 16px;"><div style="display:flex; background:rgba(128,128,128,0.1); padding:4px; border-radius:12px; border:1px solid var(--b1);"><button id="risk-dir-long" class="btn btn-ghost" style="flex:1; border:1px solid rgba(16,185,129,0.3); box-shadow:none; background:var(--grn-d); color:var(--grn);" onclick="setRiskDir('long')">▲ LONG</button><button id="risk-dir-short" class="btn btn-ghost" style="flex:1; border:1px solid transparent; box-shadow:none;" onclick="setRiskDir('short')">▼ SHORT</button></div></div>
+          <div class="form-row" style="margin-bottom: 16px; gap:12px;"><div class="form-group" style="margin:0;"><label>My Capital</label><input type="number" id="risk-capital" class="form-input mono" value="100000" oninput="calculateRisk()"></div><div class="form-group" style="margin:0;"><label>Entry Price</label><input type="number" id="risk-entry" class="form-input mono" value="500" oninput="calculateRisk()"></div></div>
+          <div class="form-row" style="margin-bottom: 16px; gap:12px;"><div class="form-group" style="margin:0;"><label>Max Loss (₹)</label><input type="number" id="risk-maxloss" class="form-input mono" value="2000" oninput="calculateRisk()"></div><div class="form-group" style="margin:0;"><label>Brokerage</label><input type="number" id="risk-brokerage" class="form-input mono" value="40" oninput="calculateRisk()"></div></div>
+          <div class="form-group" style="margin-bottom: 16px;"><label>Margin Multiplier</label><select id="risk-leverage" class="form-input mono" onchange="calculateRisk()"><option value="1">1x (CNC / Delivery)</option><option value="2">2x (Margin MTF)</option><option value="4">4x (Bracket Order)</option><option value="5" selected>5x (MIS / Intraday)</option></select></div>
         </div>
-
         <div style="background:rgba(128,128,128,0.05); border:1px solid var(--b1); border-radius:16px; padding:24px; position:relative; overflow:hidden;">
           <div id="risk-error" style="display:none; color:var(--red); font-size:12px; background:var(--red-d); padding:10px; border-radius:8px; border:1px solid rgba(244,63,94,0.3); margin-bottom:16px;"></div>
-
           <div id="risk-success">
-            <div style="text-align:center; border-bottom:1px solid var(--b1); padding-bottom:16px; margin-bottom:16px;">
-              <div style="font-size:10px; color:var(--t2); text-transform:uppercase; letter-spacing:2px; margin-bottom:8px; font-weight:700;">Set Stop Loss At</div>
-              <div id="risk-sl-price" class="mono" style="font-size:36px; font-weight:800; color:var(--red); line-height:1;">₹0.00</div>
-              <div id="risk-sl-drop" class="mono" style="font-size:12px; color:var(--red); opacity:0.8; margin-top:8px;">—</div>
-            </div>
-
+            <div style="text-align:center; border-bottom:1px solid var(--b1); padding-bottom:16px; margin-bottom:16px;"><div style="font-size:10px; color:var(--t2); text-transform:uppercase; letter-spacing:2px; margin-bottom:8px; font-weight:700;">Set Stop Loss At</div><div id="risk-sl-price" class="mono" style="font-size:36px; font-weight:800; color:var(--red); line-height:1;">₹0.00</div><div id="risk-sl-drop" class="mono" style="font-size:12px; color:var(--red); opacity:0.8; margin-top:8px;">—</div></div>
             <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:12px; margin-bottom:16px;">
               <div><div style="font-size:9px; color:var(--t3); font-weight:700; text-transform:uppercase;">Quantity</div><div id="risk-qty" class="mono" style="color:var(--grn); font-weight:700; font-size:15px;">0</div></div>
               <div><div style="font-size:9px; color:var(--t3); font-weight:700; text-transform:uppercase;">Position Size</div><div id="risk-pos-size" class="mono" style="font-weight:700; font-size:15px;">₹0</div></div>
               <div><div style="font-size:9px; color:var(--t3); font-weight:700; text-transform:uppercase;">Margin Impact</div><div id="risk-margin-impact" class="mono" style="color:var(--acc); font-weight:700; font-size:15px;">₹0</div></div>
               <div><div style="font-size:9px; color:var(--t3); font-weight:700; text-transform:uppercase;">Net Max Loss</div><div id="risk-net-loss" class="mono" style="color:var(--red); font-weight:700; font-size:15px;">₹0</div></div>
-              <div><div style="font-size:9px; color:var(--t3); font-weight:700; text-transform:uppercase;">Risk / Share</div><div id="risk-per-share" class="mono" style="color:var(--yel); font-weight:700; font-size:15px;">₹0</div></div>
+              <div style="grid-column: span 2;"><div style="font-size:9px; color:var(--t3); font-weight:700; text-transform:uppercase;">Risk / Share</div><div id="risk-per-share" class="mono" style="color:var(--yel); font-weight:700; font-size:15px;">₹0</div></div>
             </div>
-
-            <div style="margin-bottom:12px;">
-              <div style="display:flex; justify-content:space-between; font-size:10px; font-weight:700; color:var(--t2); margin-bottom:6px; text-transform:uppercase;"><span>Capital at Risk</span><span id="risk-pct" class="mono">0%</span></div>
-              <div style="height:6px; background:rgba(128,128,128,0.2); border-radius:4px; overflow:hidden;">
-                <div id="risk-bar" style="height:100%; width:0%; background:linear-gradient(90deg, var(--grn), var(--yel)); transition:width 0.3s;"></div>
-              </div>
-            </div>
+            <div style="margin-bottom:12px;"><div style="display:flex; justify-content:space-between; font-size:10px; font-weight:700; color:var(--t2); margin-bottom:6px; text-transform:uppercase;"><span>Capital at Risk</span><span id="risk-pct" class="mono">0%</span></div><div style="height:6px; background:rgba(128,128,128,0.2); border-radius:4px; overflow:hidden;"><div id="risk-bar" style="height:100%; width:0%; background:linear-gradient(90deg, var(--grn), var(--yel)); transition:width 0.3s;"></div></div></div>
             <div id="risk-tip" style="font-size:11px; color:var(--t2); background:var(--grn-d); border-left:2px solid var(--grn); padding:8px 12px; border-radius:4px; line-height:1.4;"></div>
           </div>
         </div>
       </div>
     </div>
-
     <div class="chart-grid"><div class="chart-card" style="grid-column: span 2;"><div class="chart-title">Alpha Curve</div><div style="height:250px;position:relative"><canvas id="equity-chart"></canvas></div></div></div>
   `;
-  drawEquityChart();
-  calculateRisk(); 
-  
+  drawEquityChart(); calculateRisk(); 
   if(holdings.length>0) {
     let totUnreal = 0;
     await Promise.allSettled(holdings.map(async h=>{ const ltp = await fetchPrice(h.symbol); if(ltp!=null) totUnreal += (ltp - h.avgPrice)*h.qty; }));
@@ -713,13 +654,53 @@ function drawEquityChart() {
   const sorted = [...Store.closedTrades].sort((a,b)=>new Date(a.closedDate)-new Date(b.closedDate)); let cum=0; const labels=[], data=[];
   sorted.forEach(t=>{ cum+=t.totalPnl; labels.push(DT(t.closedDate)); data.push(+cum.toFixed(2)); });
   if(!data.length){ ctx.parentElement.innerHTML = '<div style="height:250px;display:flex;align-items:center;justify-content:center;color:var(--t3);font-weight:600;">System requires data to project curve.</div>'; return; }
-  
-  let gradient = ctx.getContext('2d').createLinearGradient(0, 0, 0, 250);
-  gradient.addColorStop(0, cum>=0?'rgba(16,185,129,0.5)':'rgba(244,63,94,0.5)');
-  gradient.addColorStop(1, 'rgba(0,0,0,0)');
-  
+  let gradient = ctx.getContext('2d').createLinearGradient(0, 0, 0, 250); gradient.addColorStop(0, cum>=0?'rgba(16,185,129,0.5)':'rgba(244,63,94,0.5)'); gradient.addColorStop(1, 'rgba(0,0,0,0)');
   const col = cum>=0?'#10b981':'#f43f5e'; Chart.defaults.color = '#86868b'; Chart.defaults.font.family = 'Plus Jakarta Sans';
   equityChart = new Chart(ctx, { type:'line', data:{labels,datasets:[{data,borderColor:col,backgroundColor:gradient,fill:true,tension:0.4,borderWidth:3,pointRadius:0,pointHoverRadius:6}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}, interaction:{mode:'index',intersect:false}, scales:{x:{grid:{display:false}},y:{grid:{color:'rgba(128,128,128,0.1)'}, border:{display:false}}}} });
+}
+
+// --- NEW CAPITAL IMPACT TAB (LEVERAGE ROI) ---
+function renderImpact() {
+  const el = document.getElementById('page-impact'); const ct = Store.closedTrades;
+  const sortedCt = [...ct].sort((a,b)=> b.refTs - a.refTs);
+  
+  let tableRows = sortedCt.map(t => {
+    const tradeRoi = t.pct; 
+    const portImpact = (t.totalPnl / Store.baseCapital) * 100;
+    return `<tr>
+      <td><div style="font-weight:800; color:var(--t1);">${t.symbol}</div></td>
+      <td class="mono">${INR(t.tradeValue, false)}</td>
+      <td class="mono ${pnlClass(t.totalPnl)}" style="font-weight:800;">${INR(t.totalPnl, true)}</td>
+      <td class="mono ${pnlClass(tradeRoi)}">${tradeRoi >= 0 ? '+' : ''}${tradeRoi.toFixed(2)}%</td>
+      <td class="mono"><span class="badge badge-impact">${portImpact >= 0 ? '+' : ''}${portImpact.toFixed(2)}%</span></td>
+    </tr>`;
+  }).join('');
+
+  if(ct.length === 0) tableRows = `<tr><td colspan="5" style="text-align:center; padding: 40px; color:var(--t3);">No data available. Close a leveraged trade to track impact.</td></tr>`;
+
+  el.innerHTML = `
+    <div style="margin-bottom: 24px; display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:16px;">
+      <div><h2 style="font-size: 32px; font-weight: 800; letter-spacing: -1px;">Capital Impact Matrix 🏛️</h2></div>
+    </div>
+
+    <div class="stat-card" style="margin-bottom: 24px; display:flex; flex-wrap:wrap; gap: 20px; align-items:center;">
+       <div>
+         <label style="display:block; font-size:11px; font-weight:700; color:var(--t2); margin-bottom:8px; text-transform:uppercase; letter-spacing:1px;">Base Portfolio Capital (₹)</label>
+         <input type="number" id="base-cap-input" value="${Store.baseCapital}" class="form-input mono" style="font-size:24px; font-weight:800; color:var(--acc); max-width:250px;" onchange="updateBaseCap(this.value)">
+       </div>
+       <div style="flex:1; min-width:200px;">
+         <p style="font-size:13px; color:var(--t3); line-height:1.5;">This represents your un-leveraged cash balance. The matrix uses this to calculate exactly how much your leveraged (Margin/MTF) trades are impacting your actual net worth.</p>
+       </div>
+    </div>
+
+    <div class="chart-card" style="padding: 0; display: flex; flex-direction: column;">
+      <div class="chart-title" style="padding: 24px 24px 16px;">Leverage ROI vs Portfolio Impact</div>
+      <div class="tbl-wrap" style="border:none; box-shadow:none; flex:1; max-height:500px; overflow-y:auto;"><table>
+          <thead class="sticky-th"><tr><th>Asset</th><th>Position Size</th><th>Net P&L</th><th>Trade ROI</th><th>Portfolio Impact</th></tr></thead>
+          <tbody>${tableRows}</tbody>
+      </table></div>
+    </div>
+  `;
 }
 
 async function renderPortfolio() {
@@ -750,7 +731,6 @@ async function renderPortfolio() {
 
 let mapTimer = null; let currentMapType = 'nifty';
 const NIFTY_50 = ["RELIANCE","TCS","HDFCBANK","INFY","ICICIBANK","HINDUNILVR","SBIN","BHARTIARTL","ITC","KOTAKBANK","LARSEN","AXISBANK","BAJFINANCE","MARUTI","ASIANPAINT","TITAN","BAJAJFINSV","SUNPHARMA","TATASTEEL","M&M","ULTRACEMCO","POWERGRID","NTPC","WIPRO","HCLTECH","NESTLEIND","ONGC","TECHM","JSWSTEEL","HINDALCO","ADANIPORTS","GRASIM","TATAMOTORS","DIVISLAB","CIPLA","TATACONSUM","BAJAJ-AUTO","UPL","APOLLOHOSP","BRITANNIA","EICHERMOT","DRREDDY","HEROMOTOCO","COALINDIA","BPCL","SHRIRAMFIN","ADANIENT","INDUSINDBK","SBILIFE","LTIM"];
-
 function getHeatColor(change) {
   if (change > 2) return { bg: 'rgba(16,185,129,0.6)', border: 'rgba(16,185,129,1)' };
   if (change > 0.5) return { bg: 'rgba(16,185,129,0.3)', border: 'rgba(16,185,129,0.6)' };
@@ -759,58 +739,34 @@ function getHeatColor(change) {
   if (change > -2) return { bg: 'rgba(244,63,94,0.3)', border: 'rgba(244,63,94,0.6)' };
   return { bg: 'rgba(244,63,94,0.6)', border: 'rgba(244,63,94,1)' };
 }
-
 async function renderMarketMap() {
   const el = document.getElementById('page-market');
-  el.innerHTML = `
-    <div class="market-controls">
-      <button class="market-btn ${currentMapType==='nifty'?'active':''}" onclick="loadMapData('nifty')">NIFTY 50</button>
-      <button class="market-btn ${currentMapType==='portfolio'?'active':''}" onclick="loadMapData('portfolio')">MY PORTFOLIO</button>
-      <div id="map-status" style="margin-left:auto; font-size:12px; color:var(--acc); font-family:var(--mono); align-self:center;"></div>
-    </div>
-    <div id="map-grid" class="market-grid"></div>
-  `;
+  el.innerHTML = `<div class="market-controls"><button class="market-btn ${currentMapType==='nifty'?'active':''}" onclick="loadMapData('nifty')">NIFTY 50</button><button class="market-btn ${currentMapType==='portfolio'?'active':''}" onclick="loadMapData('portfolio')">MY PORTFOLIO</button><div id="map-status" style="margin-left:auto; font-size:12px; color:var(--acc); font-family:var(--mono); align-self:center;"></div></div><div id="map-grid" class="market-grid"></div>`;
   loadMapData(currentMapType);
 }
-
 async function loadMapData(type) {
   currentMapType = type;
   document.querySelectorAll('.market-btn').forEach(btn => { btn.classList.remove('active'); if(btn.innerText.toLowerCase().includes(type)) btn.classList.add('active'); });
   const grid = document.getElementById('map-grid'); const stat = document.getElementById('map-status'); if(!grid) return;
-  
   let symbols = type === 'nifty' ? NIFTY_50 : Object.keys(Store.holdings);
   if(symbols.length === 0) { grid.innerHTML = `<div style="color:var(--t3); grid-column:1/-1;">No open positions in portfolio.</div>`; stat.innerText = ''; return; }
-  
   grid.innerHTML = symbols.map(s => `<div class="market-card" id="mc-${s}"><div class="mc-sym">${s}</div><div class="mc-price">...</div><div class="mc-pct">...</div></div>`).join('');
   stat.innerText = 'PULSING...';
-
   const qs = symbols.map(s => s+'.NS').join(',');
   try {
     const url = encodeURIComponent(`https://query1.finance.yahoo.com/v7/finance/quote?symbols=${qs}`);
-    let res = await fetch(`https://api.allorigins.win/get?url=${url}`);
-    let data = await res.json(); data = JSON.parse(data.contents);
-    
+    let res = await fetch(`https://corsproxy.io/?${url}`).catch(() => fetch(`https://api.allorigins.win/raw?url=${url}`));
+    const data = await res.json();
     data.quoteResponse.result.forEach(q => {
-      const s = q.symbol.replace('.NS', '');
-      const p = q.regularMarketPrice; const c = q.regularMarketChangePercent;
-      const card = document.getElementById(`mc-${s}`);
-      if(card) {
-        const colors = getHeatColor(c);
-        card.style.background = colors.bg; card.style.borderColor = colors.border;
-        card.querySelector('.mc-price').innerHTML = `₹${p.toFixed(2)}`;
-        card.querySelector('.mc-pct').innerHTML = `${c>=0?'+':''}${c.toFixed(2)}%`;
-        card.querySelector('.mc-pct').style.color = '#fff';
-        card.classList.add('pulse-anim');
-      }
-    });
-    stat.innerText = 'LIVE (BATCH)';
+      const s = q.symbol.replace('.NS', ''); const p = q.regularMarketPrice; const c = q.regularMarketChangePercent; const card = document.getElementById(`mc-${s}`);
+      if(card) { const colors = getHeatColor(c); card.style.background = colors.bg; card.style.borderColor = colors.border; card.querySelector('.mc-price').innerHTML = `₹${p.toFixed(2)}`; card.querySelector('.mc-pct').innerHTML = `${c>=0?'+':''}${c.toFixed(2)}%`; card.querySelector('.mc-pct').style.color = '#fff'; card.classList.add('pulse-anim'); }
+    }); stat.innerText = 'LIVE (BATCH)';
   } catch(e) { stat.innerText = 'PROXY TIMEOUT'; }
 }
 
 function renderPnl() {
   const el = document.getElementById('page-pnl'); const ct = Store.closedTrades;
-  if(ct.length === 0) { el.innerHTML = `<div style="text-align:center; padding: 100px 20px; color:var(--t3);">No realized P&L data yet. Close a position to generate statement.</div>`; return; }
-
+  if(ct.length === 0) { el.innerHTML = `<div style="text-align:center; padding: 100px 20px; color:var(--t3);">No realized P&L data yet.</div>`; return; }
   const stockMap = {}; let totalPnl = 0;
   ct.forEach(t => {
     if(!stockMap[t.symbol]) stockMap[t.symbol] = { pnl: 0, trades: 0, wins: 0, holdDays: 0 };
@@ -818,60 +774,28 @@ function renderPnl() {
     if(t.totalPnl > 0) stockMap[t.symbol].wins += 1;
     stockMap[t.symbol].holdDays += t.holdDays || 0; totalPnl += t.totalPnl;
   });
-
   const sortedStocks = Object.keys(stockMap).map(s => ({symbol: s, ...stockMap[s]})).sort((a,b)=>b.pnl - a.pnl);
   const bestStock = sortedStocks[0]; const worstStock = sortedStocks[sortedStocks.length-1];
-
   const sortedCt = [...ct].sort((a,b)=> b.refTs - a.refTs);
   let tableRows = sortedCt.map(t => {
     const holdTxt = t.isIntraday ? '<span class="badge" style="background:rgba(168,85,247,0.15); color:var(--purp); border:1px solid rgba(168,85,247,0.3);">Intraday</span>' : `${t.holdDays} Days`;
     const eff = t.isIntraday ? t.totalPnl : (t.totalPnl / Math.max(1, t.holdDays));
-    return `<tr>
-      <td><div style="font-weight:800; color:var(--t1);">${t.symbol}</div></td>
-      <td>${holdTxt}</td>
-      <td class="mono" style="font-size:12px; color:var(--t2);">${DT(t.openDate)} <br> ${DT(t.closedDate)}</td>
-      <td class="mono ${pnlClass(t.totalPnl)}" style="font-weight:800">${INR(t.totalPnl, true)}</td>
-      <td class="mono ${pnlClass(t.pct)}">${t.pct >= 0 ? '+' : ''}${t.pct.toFixed(2)}%</td>
-      <td class="mono ${pnlClass(eff)}">${INR(eff, true)}/d</td>
-    </tr>`;
+    return `<tr><td><div style="font-weight:800; color:var(--t1);">${t.symbol}</div></td><td>${holdTxt}</td><td class="mono" style="font-size:12px; color:var(--t2);">${DT(t.openDate)} <br> ${DT(t.closedDate)}</td><td class="mono ${pnlClass(t.totalPnl)}" style="font-weight:800">${INR(t.totalPnl, true)}</td><td class="mono ${pnlClass(t.pct)}">${t.pct >= 0 ? '+' : ''}${t.pct.toFixed(2)}%</td><td class="mono ${pnlClass(eff)}">${INR(eff, true)}/d</td></tr>`;
   }).join('');
-
-  let assetRows = sortedStocks.map(s => {
-     return `<tr>
-      <td><div style="font-weight:800; color:var(--acc);">${s.symbol}</div></td>
-      <td class="mono">${s.trades}</td>
-      <td class="mono">${Math.round((s.wins/s.trades)*100)}%</td>
-      <td class="mono ${pnlClass(s.pnl)}" style="font-weight:800;">${INR(s.pnl, true)}</td>
-     </tr>`;
-  }).join('');
-
+  let assetRows = sortedStocks.map(s => { return `<tr><td><div style="font-weight:800; color:var(--acc);">${s.symbol}</div></td><td class="mono">${s.trades}</td><td class="mono">${Math.round((s.wins/s.trades)*100)}%</td><td class="mono ${pnlClass(s.pnl)}" style="font-weight:800;">${INR(s.pnl, true)}</td></tr>`; }).join('');
   el.innerHTML = `
     <div style="margin-bottom: 24px; display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:16px;">
       <div><h2 style="font-size: 32px; font-weight: 800; letter-spacing: -1px;">Profit & Loss Statement</h2></div>
       <button class="btn btn-ghost" onclick="exportToCSV()" style="border-radius:20px; box-shadow:var(--shadow-base);">📥 Export Tax Report</button>
     </div>
-
     <div class="stats-grid">
       <div class="stat-card"><div class="stat-lbl" style="color:var(--acc)">Net Realized P&L</div><div class="stat-val ${pnlGlowClass(totalPnl)}">${INR(totalPnl, true)}</div><div class="stat-sub">Across all closed positions</div></div>
       <div class="stat-card" style="border-color:rgba(16,185,129,0.3)"><div class="stat-lbl" style="color:var(--grn)">Cash Cow (Best Asset)</div><div class="stat-val val-up elegant-glow-up">${bestStock && bestStock.pnl > 0 ? bestStock.symbol : '--'}</div><div class="stat-sub">${bestStock && bestStock.pnl > 0 ? INR(bestStock.pnl, true) : '--'}</div></div>
       <div class="stat-card" style="border-color:rgba(244,63,94,0.3)"><div class="stat-lbl" style="color:var(--red)">Capital Bleeder</div><div class="stat-val val-dn elegant-glow-dn">${worstStock && worstStock.pnl < 0 ? worstStock.symbol : 'None'}</div><div class="stat-sub">${worstStock && worstStock.pnl < 0 ? INR(worstStock.pnl, true) : 'No losing assets'}</div></div>
     </div>
-
     <div class="chart-grid">
-      <div class="chart-card" style="padding: 0; display: flex; flex-direction: column;">
-        <div class="chart-title" style="padding: 24px 24px 16px;">Detailed P&L Book</div>
-        <div class="tbl-wrap" style="border:none; box-shadow:none; flex:1; max-height:400px; overflow-y:auto;"><table>
-            <thead class="sticky-th"><tr><th>Asset</th><th>Duration</th><th>Entry / Exit</th><th>Net P&L</th><th>Return %</th><th>Efficiency</th></tr></thead>
-            <tbody>${tableRows}</tbody>
-        </table></div>
-      </div>
-      <div class="chart-card" style="padding: 0; display: flex; flex-direction: column;">
-        <div class="chart-title" style="padding: 24px 24px 16px;">Asset Matrix</div>
-        <div class="tbl-wrap" style="border:none; box-shadow:none; flex:1; max-height:400px; overflow-y:auto;"><table>
-            <thead class="sticky-th"><tr><th>Asset</th><th>Trades</th><th>Win Rate</th><th>Net Yield</th></tr></thead>
-            <tbody>${assetRows}</tbody>
-        </table></div>
-      </div>
+      <div class="chart-card" style="padding: 0; display: flex; flex-direction: column;"><div class="chart-title" style="padding: 24px 24px 16px;">Detailed P&L Book</div><div class="tbl-wrap" style="border:none; box-shadow:none; flex:1; max-height:400px; overflow-y:auto;"><table><thead class="sticky-th"><tr><th>Asset</th><th>Duration</th><th>Entry / Exit</th><th>Net P&L</th><th>Return %</th><th>Efficiency</th></tr></thead><tbody>${tableRows}</tbody></table></div></div>
+      <div class="chart-card" style="padding: 0; display: flex; flex-direction: column;"><div class="chart-title" style="padding: 24px 24px 16px;">Asset Matrix</div><div class="tbl-wrap" style="border:none; box-shadow:none; flex:1; max-height:400px; overflow-y:auto;"><table><thead class="sticky-th"><tr><th>Asset</th><th>Trades</th><th>Win Rate</th><th>Net Yield</th></tr></thead><tbody>${assetRows}</tbody></table></div></div>
     </div>
   `;
 }
@@ -882,15 +806,12 @@ function renderAnalytics() {
 
   const wins = ct.filter(t => t.totalPnl > 0); const losses = ct.filter(t => t.totalPnl <= 0);
   const grossWin = wins.reduce((a,t) => a + t.totalPnl, 0); const grossLoss = Math.abs(losses.reduce((a,t) => a + t.totalPnl, 0));
-  
-  const avgWin = wins.length ? grossWin / wins.length : 0;
-  const avgLoss = losses.length ? grossLoss / losses.length : 0;
+  const avgWin = wins.length ? grossWin / wins.length : 0; const avgLoss = losses.length ? grossLoss / losses.length : 0;
   const winRate = wins.length / ct.length;
   
   const profitFactor = grossLoss === 0 ? 99.9 : (grossWin / grossLoss);
   let riskReward = avgLoss === 0 ? 1 : (avgWin / avgLoss);
-  let kelly = winRate - ((1 - winRate) / riskReward);
-  kelly = Math.max(0, kelly * 100); 
+  let kelly = winRate - ((1 - winRate) / riskReward); kelly = Math.max(0, kelly * 100); 
 
   let peakRealized = 0; let cum = 0;
   const sortedCt = [...ct].sort((a,b)=>new Date(a.closedDate)-new Date(b.closedDate));
@@ -916,10 +837,7 @@ function renderAnalytics() {
     
     <div class="chart-grid">
       <div class="chart-card" style="grid-column: span 2;">
-        <div class="chart-title" style="color:var(--purp); display:flex; justify-content:space-between;">
-           <span>🎲 Monte Carlo Projector (Next 30 Trades)</span>
-           <span style="font-size:10px; color:var(--t3);">Simulating 100 paths...</span>
-        </div>
+        <div class="chart-title" style="color:var(--purp); display:flex; justify-content:space-between;"><span>🎲 Monte Carlo Projector (Next 30 Trades)</span><span style="font-size:10px; color:var(--t3);">Simulating 100 paths...</span></div>
         <div style="height:300px;position:relative"><canvas id="mc-chart"></canvas></div>
       </div>
     </div>
@@ -938,18 +856,7 @@ function drawMonteCarloChart(w, aw, al) {
     }
     const labels = Array.from({length: 31}, (_, i) => `T+${i}`);
     Chart.defaults.color = '#86868b'; Chart.defaults.font.family = 'Plus Jakarta Sans';
-    mcChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels,
-            datasets: [
-                { label: 'Optimistic Path', data: paths.opt, borderColor: '#10b981', borderDash: [5,5], borderWidth: 2, pointRadius: 0, tension: 0.3 },
-                { label: 'Expected Trajectory', data: paths.exp, borderColor: '#a855f7', borderWidth: 4, pointRadius: 0, tension: 0.3 },
-                { label: 'Pessimistic Path', data: paths.pes, borderColor: '#f43f5e', borderDash: [5,5], borderWidth: 2, pointRadius: 0, tension: 0.3 }
-            ]
-        },
-        options: { responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false }, plugins: { legend: { position: 'bottom', labels: { color: '#a1a1aa', usePointStyle: true } } }, scales: { x: { grid: { display: false } }, y: { grid: { color: 'rgba(128,128,128,0.1)' } } } }
-    });
+    mcChart = new Chart(ctx, { type: 'line', data: { labels, datasets: [ { label: 'Optimistic Path', data: paths.opt, borderColor: '#10b981', borderDash: [5,5], borderWidth: 2, pointRadius: 0, tension: 0.3 }, { label: 'Expected Trajectory', data: paths.exp, borderColor: '#a855f7', borderWidth: 4, pointRadius: 0, tension: 0.3 }, { label: 'Pessimistic Path', data: paths.pes, borderColor: '#f43f5e', borderDash: [5,5], borderWidth: 2, pointRadius: 0, tension: 0.3 } ] }, options: { responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false }, plugins: { legend: { position: 'bottom', labels: { color: '#a1a1aa', usePointStyle: true } } }, scales: { x: { grid: { display: false } }, y: { grid: { color: 'rgba(128,128,128,0.1)' } } } } });
 }
 
 function renderTrades() {
@@ -957,12 +864,7 @@ function renderTrades() {
   el.innerHTML = `
     <div class="tbl-wrap"><table><thead class="sticky-th"><tr><th>Action</th><th>Asset</th><th>Date</th><th>Price</th><th>Volume</th><th>Manage</th></tr></thead>
     <tbody>${sortedRaw.map(t=>{
-      return `<tr>
-        <td><span class="badge ${t.type==='buy'?'badge-buy':'badge-sell'}">${t.type}</span></td>
-        <td><div style="font-weight:800;">${t.symbol}</div></td>
-        <td class="mono">${DT(t.date)}</td><td class="mono">${INR(t.price)}</td><td class="mono">${t.qty}</td>
-        <td><button class="btn btn-ghost btn-sm" onclick="openEdit(${t.ts})">⚙️ Edit</button></td>
-      </tr>`;
+      return `<tr><td><span class="badge ${t.type==='buy'?'badge-buy':'badge-sell'}">${t.type}</span></td><td><div style="font-weight:800;">${t.symbol}</div></td><td class="mono">${DT(t.date)}</td><td class="mono">${INR(t.price)}</td><td class="mono">${t.qty}</td><td><button class="btn btn-ghost btn-sm" onclick="openEdit(${t.ts})">⚙️ Edit</button></td></tr>`;
     }).join('')}</tbody></table></div>`;
 }
 
