@@ -158,12 +158,14 @@ tbody tr { transition: transform 0.2s, background 0.2s; }
 tbody tr:hover { background: rgba(128,128,128,0.05); transform: scale(1.002); }
 tbody tr.clickable-row { cursor: pointer; }
 tbody tr:last-child td { border-bottom: none; }
-.mono { font-family: var(--mono); font-weight: 500; font-size: 15px;}
+.mono { font-family: var(--mono); font-weight: 500; }
 
 .badge { display: inline-flex; align-items: center; padding: 6px 12px; border-radius: 8px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; box-shadow: inset 0 0 10px rgba(255,255,255,0.05); }
 .badge-buy { background: var(--grn-d); color: var(--grn); border: 1px solid rgba(16,185,129,0.4); }
 .badge-sell { background: var(--red-d); color: var(--red); border: 1px solid rgba(244,63,94,0.4); }
+.badge-tag { background: rgba(168,85,247,0.1); color: var(--purp); border: 1px solid rgba(168,85,247,0.3); margin-top: 6px; font-size: 9px; }
 
+/* MARKET MAP GRID */
 .market-controls { display: flex; gap: 12px; margin-bottom: 24px; }
 .market-btn { background: rgba(128,128,128,0.1); border: 1px solid var(--b1); color: var(--t2); padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
 .market-btn.active { background: var(--acc); color: #fff; border-color: var(--acc); box-shadow: 0 0 15px var(--acc-glow); }
@@ -176,9 +178,7 @@ tbody tr:last-child td { border-bottom: none; }
 .pulse-anim { animation: dataPulse 0.5s ease-out; }
 @keyframes dataPulse { 0% { filter: brightness(2); transform: scale(1.05); } 100% { filter: brightness(1); transform: scale(1); } }
 
-/* RISK CALCULATOR CSS */
-.risk-calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
-
+/* Modals */
 .overlay { position: fixed; inset: 0; background: var(--overlay-bg); z-index: 100; display: flex; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(15px); animation: fadeIn 0.3s ease; }
 .modal { background: var(--bg); border: 1px solid var(--b1); border-radius: 32px; padding: 40px; width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto; position: relative; box-shadow: 0 30px 80px rgba(0,0,0,0.8); }
 .modal-close { position: absolute; top: 24px; right: 24px; background: rgba(128,128,128,0.1); border: 1px solid var(--b1); color: var(--t2); width: 40px; height: 40px; border-radius: 50%; font-size: 18px; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; cursor:pointer;}
@@ -188,24 +188,28 @@ tbody tr:last-child td { border-bottom: none; }
 .form-input { width: 100%; background: rgba(128,128,128,0.1); border: 1px solid var(--b1); border-radius: 16px; padding: 16px 20px; color: var(--t1); font-size: 15px; transition: all 0.3s ease; }
 .form-input:focus { border-color: var(--purp); box-shadow: 0 0 0 3px rgba(168,85,247,0.2); background: rgba(128,128,128,0.15); }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-
 .star-rating { display: flex; flex-direction: row-reverse; justify-content: flex-end; gap: 6px; }
 .star-rating input { display: none; }
 .star-rating label { font-size: 28px; color: rgba(128,128,128,0.3); cursor: pointer; transition: all 0.3s; }
 .star-rating input:checked ~ label, .star-rating label:hover, .star-rating label:hover ~ label { color: var(--yel); text-shadow: 0 0 15px rgba(250,204,21,0.6); transform: scale(1.1); }
 
+/* SUPERFAST DIRECT TRADINGVIEW SEARCH API */
 .stock-search-wrap { position: relative; }
 .stock-dd { position: absolute; top: calc(100% + 12px); left: 0; right: 0; background: var(--bg); border: 1px solid var(--b1); border-radius: 16px; z-index: 200; max-height: 300px; overflow-y: auto; box-shadow: 0 20px 50px rgba(0,0,0,0.8); backdrop-filter: blur(30px); }
 .stock-item { padding: 16px 24px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 16px; border-bottom: 1px solid rgba(128,128,128,0.1); transition: all 0.2s; }
 .stock-item:hover { background: rgba(128,128,128,0.1); padding-left: 32px; }
+.stock-item .sym { font-family: var(--mono); font-size: 15px; font-weight: 800; color: var(--acc); min-width: 90px; }
 
 .chart-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; margin-bottom: 40px; }
 .chart-card { background: var(--s1); border: 1px solid var(--b1); border-radius: var(--r); padding: 32px; box-shadow: var(--shadow-base); backdrop-filter: var(--glass-blur); }
 .chart-title { font-size: 15px; font-weight: 700; color: var(--t1); margin-bottom: 24px; letter-spacing: 0.05em; text-transform: uppercase;}
+.live-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--acc); animation: pulse 2s infinite; margin-right: 10px; box-shadow: 0 0 15px var(--acc); }
 
+@keyframes pulse { 0% { transform: scale(0.95); opacity: 1; } 50% { transform: scale(1.3); opacity: 0.5; } 100% { transform: scale(0.95); opacity: 1; } }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); filter: blur(5px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
 .fade-in { animation: fadeIn 0.5s ease forwards; }
 
+/* BULLETPROOF MOBILE ADAPTATIONS */
 @media(max-width: 768px) {
   .layout { max-width: 100vw; overflow-x: hidden; } 
   .sidebar { transform: translateX(-100%); width: 280px; box-shadow: none; } 
@@ -225,7 +229,6 @@ tbody tr:last-child td { border-bottom: none; }
   .oracle-box { flex-direction: column; align-items: flex-start; padding: 16px; border-radius: 16px; gap:12px; width: 100%; }
   .chart-grid { grid-template-columns: 1fr; gap: 16px; width: 100%; } 
   .form-row { grid-template-columns: 1fr; gap: 16px; }
-  .risk-calc-grid { grid-template-columns: 1fr; gap: 16px; }
   table { font-size: 12px; } th, td { padding: 14px 16px; } .tbl-wrap { margin: 0 -12px; border-radius: 0; border-left: none; border-right: none; width: calc(100% + 24px); }
   .market-grid { grid-template-columns: repeat(3, 1fr); gap: 6px; } .market-card { padding: 10px; border-radius: 8px; } .mc-sym { font-size: 10px; } .mc-price { font-size: 12px; } .mc-pct { font-size: 10px; }
 }
@@ -233,7 +236,7 @@ tbody tr:last-child td { border-bottom: none; }
 .toast-wrap { position: fixed; bottom: 32px; right: 32px; z-index: 500; display: flex; flex-direction: column; gap: 12px; }
 .toast { padding: 16px 24px; border-radius: 16px; font-size: 14px; font-weight: 600; animation: fadeIn 0.4s; display: flex; align-items: center; gap: 12px; box-shadow: 0 15px 40px rgba(0,0,0,0.2); backdrop-filter: blur(20px); background: var(--bg); border: 1px solid var(--b2); color: var(--t1); }
 #flex-export { position: absolute; top: -9999px; left: -9999px; width: 450px; background: var(--bg); color: var(--t1); padding: 40px; border-radius: 24px; font-family: 'Plus Jakarta Sans', sans-serif; z-index: -10; border: 1px solid var(--b2); overflow: hidden; }
-.alloc-bar-bg { width: 100px; height: 6px; background: rgba(128,128,128,0.2); border-radius: 4px; overflow: hidden; margin-top: 6px; }
+.alloc-bar-bg { width: 100%; height: 6px; background: rgba(128,128,128,0.2); border-radius: 4px; overflow: hidden; margin-top: 6px; }
 .alloc-bar-fill { height: 100%; background: linear-gradient(90deg, var(--purp), var(--acc)); border-radius: 4px; transition: width 1s ease; }
 </style>
 </head>
@@ -261,6 +264,7 @@ tbody tr:last-child td { border-bottom: none; }
     <a class="active" data-page="dashboard"><span class="ico">◒</span>Dashboard</a>
     <a data-page="portfolio"><span class="ico">◉</span>Holdings</a>
     <a data-page="market"><span class="ico">▤</span>Market Map</a>
+    <a data-page="impact"><span class="ico">⚖️</span>Margin Impact</a>
     <a data-page="pnl"><span class="ico">💰</span>P&L Book</a>
     <a data-page="analytics"><span class="ico">◎</span>Analytics</a>
     <a data-page="trades"><span class="ico">◈</span>Ledger</a>
@@ -286,6 +290,7 @@ tbody tr:last-child td { border-bottom: none; }
   <div id="page-dashboard" class="page-body fade-in"></div>
   <div id="page-portfolio" class="page-body fade-in" style="display:none"></div>
   <div id="page-market" class="page-body fade-in" style="display:none"></div>
+  <div id="page-impact" class="page-body fade-in" style="display:none"></div>
   <div id="page-pnl" class="page-body fade-in" style="display:none"></div>
   <div id="page-analytics" class="page-body fade-in" style="display:none"></div>
   <div id="page-trades" class="page-body fade-in" style="display:none"></div>
@@ -302,7 +307,7 @@ tbody tr:last-child td { border-bottom: none; }
   <div class="modal-title">Initialize Position</div>
   <div class="form-group" style="margin-top:24px;">
     <div class="stock-search-wrap">
-      <input type="text" class="form-input" id="buy-stock-input" placeholder="Search NSE/BSE (e.g. RELIANCE)" autocomplete="off"/>
+      <input type="text" class="form-input" id="buy-stock-input" placeholder="Search Fast (e.g. RELIANCE)" autocomplete="off"/>
       <div class="stock-dd" id="buy-stock-dd" style="display:none"></div>
     </div>
   </div>
@@ -315,7 +320,7 @@ tbody tr:last-child td { border-bottom: none; }
     <div class="form-group"><label>Units</label><input type="number" class="form-input mono" id="buy-qty" placeholder="0"/></div>
   </div>
   <div class="form-row">
-    <div class="form-group"><label>Strategy Algorithm</label><select class="form-input" id="buy-tag"><option value="Swing">Swing Trade</option><option value="Intraday">Intraday</option><option value="Breakout">Breakout</option><option value="Investment">Long-term</option></select></div>
+    <div class="form-group"><label>Strategy Algorithm</label><select class="form-input" id="buy-tag"><option value="Swing">Swing Trade</option><option value="Intraday">Intraday</option><option value="MTF / Margin">MTF / Margin</option><option value="Breakout">Breakout</option><option value="Investment">Long-term</option></select></div>
     <div class="form-group"><label>Parameters</label><input type="text" class="form-input" id="buy-notes"/></div>
   </div>
   <div class="modal-footer"><button class="btn btn-ghost" onclick="closeBuy()">Abort</button><button class="btn btn-primary" onclick="submitBuy()">Execute</button></div>
@@ -339,27 +344,6 @@ tbody tr:last-child td { border-bottom: none; }
 </div>
 </div>
 
-<div class="overlay" id="avg-modal" style="display:none" onclick="if(event.target===this)closeAvg()">
-<div class="modal">
-  <button class="modal-close" onclick="closeAvg()">✕</button>
-  <div class="modal-title">🧮 Averaging Simulator</div>
-  <div class="modal-sub" id="avg-sub" style="color:var(--t2); font-size:13px;">Calculate hypothetical new positions.</div>
-  <input type="hidden" id="avg-sym"/> <input type="hidden" id="avg-cur-qty"/> <input type="hidden" id="avg-cur-price"/>
-  
-  <div class="form-row" style="margin-top:24px;">
-    <div class="form-group"><label>If I buy (Units)...</label><input type="number" class="form-input mono" id="avg-add-qty" placeholder="e.g. 100"/></div>
-    <div class="form-group"><label>At Price (₹)...</label><input type="number" class="form-input mono" id="avg-add-price" placeholder="0.00" step="0.01"/></div>
-  </div>
-  
-  <div style="background:rgba(128,128,128,0.1); padding:20px; border-radius:16px; border:1px solid var(--b1); margin-top:12px;">
-    <div style="font-size:11px; color:var(--t2); text-transform:uppercase; margin-bottom:8px; font-weight:700;">Projected New Average Cost</div>
-    <div id="avg-result-price" class="mono" style="font-size:32px; font-weight:800; color:var(--acc);">₹0.00</div>
-    <div style="font-size:12px; color:var(--t3); margin-top:8px;" id="avg-result-cap">Requires ₹0.00 capital</div>
-  </div>
-  <div class="modal-footer"><button class="btn btn-ghost" onclick="closeAvg()">Close Simulator</button></div>
-</div>
-</div>
-
 <div class="overlay" id="edit-modal" style="display:none" onclick="if(event.target===this)closeEdit()">
 <div class="modal">
   <button class="modal-close" onclick="closeEdit()">✕</button>
@@ -375,7 +359,7 @@ tbody tr:last-child td { border-bottom: none; }
   </div>
   <div class="form-row">
     <div class="form-group"><label>Parameters</label><input type="text" class="form-input" id="edit-notes"/></div>
-    <div class="form-group" id="edit-tag-wrap"><label>Strategy Algorithm</label><select class="form-input" id="edit-tag"><option value="Swing">Swing Trade</option><option value="Intraday">Intraday</option><option value="Breakout">Breakout</option><option value="Investment">Long-term</option><option value="Dhan Import">Dhan Import</option><option value="Other">Other</option></select></div>
+    <div class="form-group" id="edit-tag-wrap"><label>Strategy Algorithm</label><select class="form-input" id="edit-tag"><option value="Swing">Swing Trade</option><option value="Intraday">Intraday</option><option value="MTF / Margin">MTF / Margin</option><option value="Breakout">Breakout</option><option value="Investment">Long-term</option><option value="Dhan Import">Dhan Import</option><option value="Other">Other</option></select></div>
   </div>
   <div class="modal-footer" style="justify-content: space-between;">
     <button class="btn btn-ghost" onclick="deleteTrade()" style="color:var(--red);">Wipe Record</button>
@@ -394,8 +378,10 @@ let isGhostMode = false;
 
 const Store = {
   rawTxns: [], holdings: {}, closedTrades: [],
+  baseCapital: parseFloat(localStorage.getItem('tb_base_cap')) || 100000,
   load() { try { const d = JSON.parse(localStorage.getItem('tb_v4')); if(d) this.rawTxns = d.rawTxns || []; } catch(e) {} this.rebuildLedger(); },
   save() { localStorage.setItem('tb_v4', JSON.stringify({ rawTxns: this.rawTxns })); },
+  setBaseCapital(val) { this.baseCapital = val; localStorage.setItem('tb_base_cap', val); renderPage(currentPage); },
   rebuildLedger() {
     this.holdings = {}; this.closedTrades = [];
     this.rawTxns.sort((a,b) => { let dA = new Date(a.date).getTime(); let dB = new Date(b.date).getTime(); if(dA !== dB) return dA - dB; if(a.type !== b.type) return a.type === 'buy' ? -1 : 1; return a.ts - b.ts; });
@@ -410,8 +396,11 @@ const Store = {
         let isIntraday = false; let holdDays = 0;
         if(t.date === firstBuy.date) { isIntraday = true; holdDays = 0; }
         else { holdDays = Math.max(1, Math.ceil((new Date(t.date) - new Date(firstBuy.date)) / 86400000)); }
+        
+        let positionValue = h.avgPrice * sellQty; // Trade Value
+        
         h.qty -= sellQty; h.totalCost -= (h.avgPrice * sellQty);
-        this.closedTrades.push({ symbol: t.symbol, openDate: firstBuy.date, closedDate: t.date, totalPnl: pnl, pct: pct, isPartial: h.qty > 0, holdDays, isIntraday, tag: firstBuy.tag || 'Other', conviction: firstBuy.conviction || 3, refTs: t.ts });
+        this.closedTrades.push({ symbol: t.symbol, openDate: firstBuy.date, closedDate: t.date, totalPnl: pnl, pct: pct, positionValue: positionValue, isPartial: h.qty > 0, holdDays, isIntraday, tag: firstBuy.tag || 'Other', conviction: firstBuy.conviction || 3, refTs: t.ts });
         if (h.qty <= 0) delete this.holdings[t.symbol];
       }
     });
@@ -425,14 +414,14 @@ const Store = {
 Store.load();
 
 let searchTimer = null;
+// SUPERFAST DIRECT TRADINGVIEW SEARCH API (No CORS Proxy Needed)
 async function searchNSE(query) { 
   const q = query.toUpperCase().trim(); if (!q) return []; 
   try { 
-    const url = encodeURIComponent(`https://query2.finance.yahoo.com/v1/finance/search?q=${q}&quotesCount=8&country=India`);
-    let res = await fetch(`https://api.allorigins.win/get?url=${url}`);
-    let data = await res.json(); data = JSON.parse(data.contents);
-    if (data && data.quotes) return data.quotes.filter(q => q.exchange === 'NSI' || q.exchange === 'BSE' || (q.symbol && q.symbol.endsWith('.NS'))).map(q => ({ symbol: q.symbol.replace('.NS', '').replace('.BO', ''), name: q.shortname || q.longname || q.symbol, exchange: q.exchange === 'BSE' ? 'BSE' : 'NSE' })); 
-  } catch (e) {} return []; 
+    const res = await fetch(`https://symbol-search.tradingview.com/symbol_search/v3/?text=${encodeURIComponent(q)}&hl=1&exchange=NSE&lang=en&type=stock`);
+    const data = await res.json(); 
+    return data.map(item => ({ symbol: item.symbol, name: item.description, exchange: item.exchange })); 
+  } catch (e) { return []; } 
 }
 
 const PRICE_CACHE = {}, PRICE_PENDING = {};
@@ -482,8 +471,8 @@ document.addEventListener('click', (e) => { const sidebar = document.getElementB
 
 function renderPage(page) {
   if(page==='dashboard') renderDashboard(); if(page==='portfolio') renderPortfolio();
-  if(page==='market') renderMarketMap(); if(page==='pnl') renderPnl(); if(page==='trades') renderTrades(); 
-  if(page==='analytics') renderAnalytics(); if(page==='settings') renderSettings();
+  if(page==='market') renderMarketMap(); if(page==='impact') renderImpact(); if(page==='pnl') renderPnl(); 
+  if(page==='analytics') renderAnalytics(); if(page==='trades') renderTrades(); if(page==='settings') renderSettings();
   document.getElementById('sb-stats').textContent = `${Object.keys(Store.holdings).length} POSITIONS`;
 }
 
@@ -529,86 +518,7 @@ async function generateFlexCard() {
   });
 }
 
-// --- RISK CALCULATOR LOGIC ---
-let currentRiskDir = 'long';
-window.setRiskDir = function(dir) {
-  currentRiskDir = dir;
-  const btnLong = document.getElementById('risk-dir-long');
-  const btnShort = document.getElementById('risk-dir-short');
-  if(dir === 'long') {
-    btnLong.style.background = 'var(--grn-d)'; btnLong.style.color = 'var(--grn)'; btnLong.style.border = '1px solid rgba(16,185,129,0.3)';
-    btnShort.style.background = 'transparent'; btnShort.style.color = 'var(--t2)'; btnShort.style.border = '1px solid transparent';
-  } else {
-    btnShort.style.background = 'var(--red-d)'; btnShort.style.color = 'var(--red)'; btnShort.style.border = '1px solid rgba(244,63,94,0.3)';
-    btnLong.style.background = 'transparent'; btnLong.style.color = 'var(--t2)'; btnLong.style.border = '1px solid transparent';
-  }
-  calculateRisk();
-};
-
-window.calculateRisk = function() {
-  const capInput = document.getElementById('risk-capital');
-  if(!capInput) return;
-
-  const capital = parseFloat(capInput.value);
-  const entry = parseFloat(document.getElementById('risk-entry').value);
-  const maxloss = parseFloat(document.getElementById('risk-maxloss').value);
-  const brokerage = parseFloat(document.getElementById('risk-brokerage').value) || 0;
-
-  const errEl = document.getElementById('risk-error');
-  const succEl = document.getElementById('risk-success');
-
-  if (!capital || !entry || !maxloss || capital <= 0 || entry <= 0 || maxloss <= 0) {
-    errEl.innerHTML = '⚠ Enter valid numbers.'; errEl.style.display = 'block'; succEl.style.display = 'none'; return;
-  }
-
-  const qty = Math.floor(capital / entry);
-  if (qty < 1) { errEl.innerHTML = '⚠ Capital too low for 1 share.'; errEl.style.display = 'block'; succEl.style.display = 'none'; return; }
-
-  const actualCapital = qty * entry;
-  const netLossBudget = maxloss - (2 * brokerage);
-  if (netLossBudget <= 0) { errEl.innerHTML = '⚠ Max loss must exceed brokerage.'; errEl.style.display = 'block'; succEl.style.display = 'none'; return; }
-
-  const riskPerShare = netLossBudget / qty;
-  let slPrice;
-
-  if (currentRiskDir === 'long') {
-    slPrice = entry - riskPerShare;
-    if (slPrice <= 0) { errEl.innerHTML = '⚠ SL price <= 0. Reduce size.'; errEl.style.display = 'block'; succEl.style.display = 'none'; return; }
-  } else {
-    slPrice = entry + riskPerShare;
-  }
-
-  const slDrop = Math.abs(entry - slPrice);
-  const slPct = (slDrop / entry) * 100;
-  const capitalRiskPct = (maxloss / capital) * 100;
-
-  errEl.style.display = 'none';
-  succEl.style.display = 'block';
-
-  document.getElementById('risk-sl-price').innerHTML = INR(slPrice, false);
-  document.getElementById('risk-sl-drop').innerHTML = (currentRiskDir === 'long' ? '▼ ' : '▲ ') + INR(slDrop, false) + ` (${slPct.toFixed(2)}%)`;
-
-  document.getElementById('risk-qty').textContent = qty;
-  document.getElementById('risk-actual-cap').innerHTML = INR(actualCapital, false);
-  document.getElementById('risk-net-loss').innerHTML = INR(maxloss, false);
-  document.getElementById('risk-per-share').innerHTML = INR(riskPerShare, false);
-  document.getElementById('risk-pct').textContent = capitalRiskPct.toFixed(2) + '%';
-  
-  const bar = document.getElementById('risk-bar');
-  const barPct = Math.min(capitalRiskPct * 5, 100);
-  bar.style.width = barPct + '%';
-  
-  let tip = ''; let tipColor = '';
-  if (capitalRiskPct <= 1) { tip = `<strong>Elite Discipline:</strong> Risking ${capitalRiskPct.toFixed(2)}%. Well within the 1% pro rule.`; tipColor = 'var(--grn)'; bar.style.background = 'linear-gradient(90deg, var(--grn), var(--yel))'; } 
-  else if (capitalRiskPct <= 2) { tip = `<strong>Good Management:</strong> ${capitalRiskPct.toFixed(2)}% risk is acceptable.`; tipColor = 'var(--yel)'; bar.style.background = 'linear-gradient(90deg, var(--grn), var(--yel))'; } 
-  else { tip = `<strong>⚠ High Risk:</strong> ${capitalRiskPct.toFixed(2)}% exceeds safe limits. Reduce size.`; tipColor = 'var(--red)'; bar.style.background = 'linear-gradient(90deg, var(--yel), var(--red))'; }
-  
-  const tipEl = document.getElementById('risk-tip');
-  tipEl.innerHTML = tip; tipEl.style.borderLeftColor = tipColor; 
-  tipEl.style.background = tipColor === 'var(--red)' ? 'var(--red-d)' : tipColor === 'var(--yel)' ? 'var(--yel-d)' : 'var(--grn-d)';
-};
-
-let equityChart = null, mcChart = null;
+let equityChart = null, mcChart = null, distChart = null;
 async function renderDashboard() {
   const el = document.getElementById('page-dashboard'), holdings = Object.values(Store.holdings), ct = Store.closedTrades;
   const realPnl = Store.totalRealizedPnl(), invested = Store.totalInvested(), wins = ct.filter(t=>t.totalPnl>0).length, winRate = ct.length>0?(wins/ct.length*100):0;
@@ -620,65 +530,15 @@ async function renderDashboard() {
       <button class="btn btn-ghost" onclick="generateFlexCard()" style="border-radius:20px; box-shadow:var(--shadow-base);">📸 Share Edge</button>
     </div>
     <div class="oracle-box"><div class="oracle-icon">✧</div><div class="oracle-text">${generateOracleInsights()}</div></div>
-    
     <div class="stats-grid">
       <div class="stat-card"><div class="stat-lbl" style="color:var(--acc)">Active Capital</div><div class="stat-val val-acc" id="dash-inv">${INR(invested)}</div><div class="stat-sub">${holdings.length} active assets</div></div>
       <div class="stat-card"><div class="stat-lbl" style="color:${realPnl>=0?'var(--grn)':'var(--red)'}">Realized Yield</div><div class="stat-val ${pnlGlowClass(realPnl)}" id="dash-real">${INR(realPnl,true)}</div><div class="stat-sub">${ct.length} closed trades</div></div>
       <div class="stat-card"><div class="stat-lbl" style="color:var(--grn)">Win Rate</div><div class="stat-val">${winRate.toFixed(1)}%</div><div class="stat-sub">${wins}W / ${ct.length-wins}L</div></div>
       <div class="stat-card"><div class="stat-lbl" style="color:var(--yel)">Floating P&L</div><div class="stat-val" id="dash-unreal">...</div><div class="stat-sub">Live Link</div></div>
     </div>
-
-    <div class="chart-card" style="margin-bottom: 40px; padding: 24px;">
-      <div class="chart-title" style="margin-bottom: 24px;">⚡ Position Sizer & Risk Calculator</div>
-      <div class="risk-calc-grid">
-        <div>
-          <div class="form-group" style="margin-bottom: 16px;">
-            <div style="display:flex; background:rgba(128,128,128,0.1); padding:4px; border-radius:12px; border:1px solid var(--b1);">
-              <button id="risk-dir-long" class="btn btn-ghost" style="flex:1; border:1px solid rgba(16,185,129,0.3); box-shadow:none; background:var(--grn-d); color:var(--grn);" onclick="setRiskDir('long')">▲ LONG</button>
-              <button id="risk-dir-short" class="btn btn-ghost" style="flex:1; border:1px solid transparent; box-shadow:none;" onclick="setRiskDir('short')">▼ SHORT</button>
-            </div>
-          </div>
-          <div class="form-row" style="margin-bottom: 16px; gap:12px;">
-            <div class="form-group" style="margin:0;"><label>Capital</label><input type="number" id="risk-capital" class="form-input mono" value="100000" oninput="calculateRisk()"></div>
-            <div class="form-group" style="margin:0;"><label>Entry Price</label><input type="number" id="risk-entry" class="form-input mono" value="500" oninput="calculateRisk()"></div>
-          </div>
-          <div class="form-row" style="margin-bottom: 16px; gap:12px;">
-            <div class="form-group" style="margin:0;"><label>Max Loss (₹)</label><input type="number" id="risk-maxloss" class="form-input mono" value="2000" oninput="calculateRisk()"></div>
-            <div class="form-group" style="margin:0;"><label>Brokerage</label><input type="number" id="risk-brokerage" class="form-input mono" value="40" oninput="calculateRisk()"></div>
-          </div>
-        </div>
-
-        <div style="background:rgba(128,128,128,0.05); border:1px solid var(--b1); border-radius:16px; padding:24px; position:relative; overflow:hidden;">
-          <div id="risk-error" style="display:none; color:var(--red); font-size:12px; background:var(--red-d); padding:10px; border-radius:8px; border:1px solid rgba(244,63,94,0.3); margin-bottom:16px;"></div>
-          <div id="risk-success">
-            <div style="text-align:center; border-bottom:1px solid var(--b1); padding-bottom:16px; margin-bottom:16px;">
-              <div style="font-size:10px; color:var(--t2); text-transform:uppercase; letter-spacing:2px; margin-bottom:8px; font-weight:700;">Set Stop Loss At</div>
-              <div id="risk-sl-price" class="mono" style="font-size:36px; font-weight:800; color:var(--red); line-height:1;">₹0.00</div>
-              <div id="risk-sl-drop" class="mono" style="font-size:12px; color:var(--red); opacity:0.8; margin-top:8px;">—</div>
-            </div>
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px; margin-bottom:16px;">
-              <div><div style="font-size:9px; color:var(--t3); font-weight:700; text-transform:uppercase;">Quantity</div><div id="risk-qty" class="mono" style="color:var(--grn); font-weight:700; font-size:16px;">0</div></div>
-              <div><div style="font-size:9px; color:var(--t3); font-weight:700; text-transform:uppercase;">Actual Capital</div><div id="risk-actual-cap" class="mono" style="font-weight:700; font-size:16px;">₹0</div></div>
-              <div><div style="font-size:9px; color:var(--t3); font-weight:700; text-transform:uppercase;">Net Max Loss</div><div id="risk-net-loss" class="mono" style="color:var(--red); font-weight:700; font-size:16px;">₹0</div></div>
-              <div><div style="font-size:9px; color:var(--t3); font-weight:700; text-transform:uppercase;">Risk / Share</div><div id="risk-per-share" class="mono" style="color:var(--yel); font-weight:700; font-size:16px;">₹0</div></div>
-            </div>
-            <div style="margin-bottom:12px;">
-              <div style="display:flex; justify-content:space-between; font-size:10px; font-weight:700; color:var(--t2); margin-bottom:6px; text-transform:uppercase;"><span>Capital at Risk</span><span id="risk-pct" class="mono">0%</span></div>
-              <div style="height:6px; background:rgba(128,128,128,0.2); border-radius:4px; overflow:hidden;">
-                <div id="risk-bar" style="height:100%; width:0%; background:linear-gradient(90deg, var(--grn), var(--yel)); transition:width 0.3s;"></div>
-              </div>
-            </div>
-            <div id="risk-tip" style="font-size:11px; color:var(--t2); background:var(--grn-d); border-left:2px solid var(--grn); padding:8px 12px; border-radius:4px; line-height:1.4;"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <div class="chart-grid"><div class="chart-card" style="grid-column: span 2;"><div class="chart-title">Alpha Curve</div><div style="height:250px;position:relative"><canvas id="equity-chart"></canvas></div></div></div>
   `;
   drawEquityChart();
-  calculateRisk(); // Initialize calculator
-
   if(holdings.length>0) {
     let totUnreal = 0;
     await Promise.allSettled(holdings.map(async h=>{ const ltp = await fetchPrice(h.symbol); if(ltp!=null) totUnreal += (ltp - h.avgPrice)*h.qty; }));
@@ -722,6 +582,67 @@ async function renderPortfolio() {
   });
 }
 
+// --- NEW PORTFOLIO IMPACT ENGINE (MTF & MARGIN TRACKER) ---
+function renderImpact() {
+  const el = document.getElementById('page-impact'); 
+  const ct = Store.closedTrades;
+  const baseCap = Store.baseCapital;
+  
+  let netGrowth = 0;
+  let totalMarginUsed = 0;
+  let tradesCount = ct.length;
+
+  const rows = [...ct].sort((a,b)=> b.refTs - a.refTs).map(t => {
+    let posValue = t.positionValue || 0; // Fallback if missing
+    let pnl = t.totalPnl;
+    let tradeRoi = posValue > 0 ? (pnl / posValue) * 100 : 0;
+    let portImpact = baseCap > 0 ? (pnl / baseCap) * 100 : 0;
+    
+    netGrowth += portImpact;
+    totalMarginUsed += posValue;
+    
+    let levStr = baseCap > 0 ? (posValue / baseCap).toFixed(2) + 'x' : '1x';
+    
+    return `<tr>
+      <td><div style="font-weight:800; color:var(--t1);">${t.symbol}</div><span class="badge badge-tag">${t.tag || 'Trade'}</span></td>
+      <td class="mono" style="color:var(--t2)">${INR(posValue, false)} <span style="font-size:10px">(${levStr})</span></td>
+      <td class="mono ${pnlClass(pnl)}" style="font-weight:800">${INR(pnl, true)}</td>
+      <td class="mono ${pnlClass(tradeRoi)}">${tradeRoi >= 0 ? '+' : ''}${tradeRoi.toFixed(2)}%</td>
+      <td class="mono ${pnlClass(portImpact)}" style="font-size:16px; font-weight:800;">${portImpact >= 0 ? '+' : ''}${portImpact.toFixed(2)}%</td>
+    </tr>`;
+  }).join('');
+
+  let avgLev = tradesCount > 0 ? (totalMarginUsed / tradesCount) / baseCap : 0;
+
+  el.innerHTML = `
+    <div style="margin-bottom: 24px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+      <div><h2 style="font-size: 32px; font-weight: 800; letter-spacing: -1px;">Portfolio Impact Tracker</h2></div>
+      <div style="display:flex; align-items:center; gap:12px; background:var(--s1); padding:8px 16px; border-radius:12px; border:1px solid var(--b1);">
+         <span style="font-size:11px; font-weight:700; color:var(--t2); text-transform:uppercase;">Base Capital:</span>
+         <div style="display:flex; align-items:center;">
+           <span style="font-family:var(--mono); color:var(--acc); margin-right:4px;">₹</span>
+           <input type="number" id="base-cap-input" value="${baseCap}" style="background:transparent; border:none; color:var(--acc); font-family:var(--mono); font-weight:800; font-size:18px; width:100px; outline:none;" onblur="Store.setBaseCapital(this.value)">
+         </div>
+      </div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card" style="border-color:var(--purp)"><div class="stat-lbl" style="color:var(--purp)">Net Portfolio Growth</div><div class="stat-val ${pnlGlowClass(netGrowth)}">${netGrowth >= 0 ? '+' : ''}${netGrowth.toFixed(2)}%</div><div class="stat-sub">Relative to Base Capital</div></div>
+      <div class="stat-card"><div class="stat-lbl" style="color:var(--acc)">Total Realized P&L</div><div class="stat-val ${pnlClass(Store.totalRealizedPnl())}">${INR(Store.totalRealizedPnl(), true)}</div><div class="stat-sub">Absolute Profit</div></div>
+      <div class="stat-card"><div class="stat-lbl" style="color:var(--yel)">Average Leverage Used</div><div class="stat-val val-yel">${avgLev.toFixed(2)}x</div><div class="stat-sub">Pos Size vs Base Capital</div></div>
+    </div>
+
+    <div class="chart-card" style="padding: 0; display: flex; flex-direction: column;">
+      <div class="chart-title" style="padding: 24px 24px 16px;">Trade-by-Trade Portfolio Impact</div>
+      <div class="tbl-wrap" style="border:none; box-shadow:none; flex:1;"><table>
+          <thead class="sticky-th"><tr><th>Asset</th><th>Gross Position Size</th><th>Net P&L</th><th>Trade ROI</th><th>Portfolio Impact</th></tr></thead>
+          <tbody>${ct.length ? rows : '<tr><td colspan="5" style="text-align:center; color:var(--t3);">No closed trades yet.</td></tr>'}</tbody>
+      </table></div>
+    </div>
+  `;
+}
+
+// HEATMAP GRID
 let mapTimer = null; let currentMapType = 'nifty';
 const NIFTY_50 = ["RELIANCE","TCS","HDFCBANK","INFY","ICICIBANK","HINDUNILVR","SBIN","BHARTIARTL","ITC","KOTAKBANK","LARSEN","AXISBANK","BAJFINANCE","MARUTI","ASIANPAINT","TITAN","BAJAJFINSV","SUNPHARMA","TATASTEEL","M&M","ULTRACEMCO","POWERGRID","NTPC","WIPRO","HCLTECH","NESTLEIND","ONGC","TECHM","JSWSTEEL","HINDALCO","ADANIPORTS","GRASIM","TATAMOTORS","DIVISLAB","CIPLA","TATACONSUM","BAJAJ-AUTO","UPL","APOLLOHOSP","BRITANNIA","EICHERMOT","DRREDDY","HEROMOTOCO","COALINDIA","BPCL","SHRIRAMFIN","ADANIENT","INDUSINDBK","SBILIFE","LTIM"];
 
@@ -985,16 +906,30 @@ function importDhanCSV(event) {
   }; reader.readAsText(file);
 }
 function clearAllData() { if(confirm("Are you sure? This cannot be undone.")) { localStorage.removeItem('tb_v4'); Store.rawTxns = []; Store.rebuildLedger(); toast('System Wiped.', 'info'); renderSettings(); } }
+function exportToCSV() {
+  const allTxns = []; Store.rawTxns.forEach(t => allTxns.push([t.symbol, t.type, t.date, t.price, t.qty, t.tag||'Other', t.conviction||3, (t.notes||'').replace(/,/g,' ')]));
+  allTxns.sort((a,b) => new Date(a[2]) - new Date(b[2]));
+  const blob = new Blob(["Symbol,Type,Date,Price,Quantity,Tag,Conviction,Notes\n" + allTxns.map(e=>e.join(",")).join("\n")], {type:'text/csv;charset=utf-8;'});
+  const link = document.createElement("a"); link.setAttribute("href", URL.createObjectURL(blob)); link.setAttribute("download", `TradeBook_${new Date().toISOString().split('T')[0]}.csv`); link.click();
+}
 
+// RESTORED BUY/SELL EVENT LISTENERS
+document.getElementById('btn-buy').addEventListener('click', () => openBuy());
+document.getElementById('btn-sell').addEventListener('click', () => {
+  if(Object.keys(Store.holdings).length > 0) openSell();
+  else toast('No active positions to sell.', 'error');
+});
+
+// CRUD MODALS
 document.getElementById('buy-stock-input').addEventListener('input', function() {
   const q = this.value; const dd = document.getElementById('buy-stock-dd'); buySelected = null;
   if(!q) { dd.style.display='none'; return; }
-  dd.innerHTML = '<div class="stock-item" style="color:var(--t3); justify-content:center;">Querying Live Market...</div>'; dd.style.display = 'block';
+  dd.innerHTML = '<div class="stock-item" style="color:var(--t3); justify-content:center;">Querying TradingView...</div>'; dd.style.display = 'block';
   clearTimeout(searchTimer);
   searchTimer = setTimeout(async () => {
     let res = await searchNSE(q);
     const isExactMatch = res.some(r => r.symbol === q.toUpperCase());
-    if (!isExactMatch) { res.unshift({ symbol: q.toUpperCase(), name: 'Custom / SME Stock', exchange: 'NSE', isCustom: true }); }
+    if (!isExactMatch) { res.unshift({ symbol: q.toUpperCase(), name: 'Custom Asset', exchange: 'NSE', isCustom: true }); }
     dd.innerHTML = res.map(r => `
       <div class="stock-item ${r.isCustom ? 'custom-item' : ''}" onclick="selectStock('${r.symbol}')">
         <div style="display:flex; align-items:center; gap:12px;">
@@ -1004,7 +939,7 @@ document.getElementById('buy-stock-input').addEventListener('input', function() 
         <div class="badge ${r.exchange === 'NSE' ? 'badge-buy' : 'badge-open'}">${r.exchange || 'NSE'}</div>
       </div>
     `).join('');
-  }, 300); 
+  }, 100); // 100ms trigger for ultra speed
 });
 function selectStock(s) { buySelected = s; document.getElementById('buy-stock-input').value = s; document.getElementById('buy-stock-dd').style.display = 'none'; fetchPrice(s).then(l => { if (l) document.getElementById('buy-price').value = l.toFixed(2); }); }
 function openBuy() { buySelected=null; document.getElementById('buy-stock-input').value=''; document.getElementById('buy-price').value=''; document.getElementById('buy-qty').value=''; document.getElementById('buy-date').value=new Date().toISOString().split('T')[0]; document.getElementById('buy-modal').style.display='flex'; }
@@ -1036,13 +971,6 @@ function submitEdit() {
   Store.editTxn(ts, newData); toast('Ledger updated', 'success'); closeEdit(); renderPage(currentPage);
 }
 function deleteTrade() { const ts = document.getElementById('edit-ts').value; if(confirm("Confirm overwrite?")) { Store.deleteTxn(ts); toast('Dropped', 'info'); closeEdit(); renderPage(currentPage); } }
-
-// RESTORED EVENT LISTENERS FOR BUY/SELL BUTTONS
-document.getElementById('btn-buy').addEventListener('click', openBuy);
-document.getElementById('btn-sell').addEventListener('click', () => {
-  if(Object.keys(Store.holdings).length > 0) openSell();
-  else toast('No active positions to sell.', 'error');
-});
 
 navigate('dashboard');
 </script>
