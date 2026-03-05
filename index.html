@@ -75,15 +75,8 @@
 .elegant-glow-up { color: var(--grn); animation: breathUp 3.5s infinite alternate ease-in-out; }
 .elegant-glow-dn { color: var(--red); animation: breathDn 3.5s infinite alternate ease-in-out; }
 
-/* SIGNATURE GRADIENT */
 @keyframes sigGlow { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
-.signature {
-  font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700;
-  background: linear-gradient(270deg, var(--acc), var(--purp), var(--grn), var(--acc));
-  background-size: 300% 300%; animation: sigGlow 6s ease infinite;
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  transform: rotate(-3deg); display: inline-block; padding-right: 5px;
-}
+.signature { font-family: 'Caveat', cursive; font-size: 26px; font-weight: 700; background: linear-gradient(270deg, var(--acc), var(--purp), var(--grn), var(--acc)); background-size: 300% 300%; animation: sigGlow 6s ease infinite; -webkit-background-clip: text; -webkit-text-fill-color: transparent; transform: rotate(-3deg); display: inline-block; padding-right: 5px; }
 
 html, body { background-color: var(--bg); color: var(--t1); font-family: 'Plus Jakarta Sans', sans-serif; min-height: 100vh; overflow-x: hidden; transition: background-color 0.5s ease, color 0.5s ease; background-image: radial-gradient(circle at 50% 0%, var(--bg-grad) 0%, var(--bg) 60%); }
 .mono { font-family: 'JetBrains Mono', monospace; }
@@ -146,7 +139,9 @@ input, select, button { font-family: inherit; outline: none; }
 .stat-val { font-size: 34px; font-weight: 800; margin-top: 12px; letter-spacing: -1px; }
 [data-theme="hologram"] .stat-val { transform: translateZ(20px); }
 .stat-sub { font-size: 13px; color: var(--t3); margin-top: 8px; font-weight: 500; }
-.val-up { color: var(--grn); } .val-dn { color: var(--red); } .val-acc { color: var(--acc); }
+.val-up { color: var(--grn); text-shadow: 0 0 15px var(--grn-glow); }
+.val-dn { color: var(--red); text-shadow: 0 0 15px var(--red-glow); }
+.val-acc { color: var(--acc); text-shadow: 0 0 15px var(--acc-glow); }
 
 .oracle-box { background: var(--s2); border: 1px solid var(--b1); border-radius: var(--r); padding: 24px 32px; margin-bottom: 32px; box-shadow: var(--shadow-base); backdrop-filter: blur(20px); display: flex; gap: 24px; align-items: center; transition: all 0.4s; }
 .oracle-box:hover { border-color: var(--b2); }
@@ -163,6 +158,7 @@ tbody tr { transition: transform 0.2s, background 0.2s; }
 tbody tr:hover { background: rgba(128,128,128,0.05); transform: scale(1.002); }
 tbody tr.clickable-row { cursor: pointer; }
 tbody tr:last-child td { border-bottom: none; }
+.mono { font-family: var(--mono); font-weight: 500; font-size: 15px;}
 
 .badge { display: inline-flex; align-items: center; padding: 6px 12px; border-radius: 8px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; box-shadow: inset 0 0 10px rgba(255,255,255,0.05); }
 .badge-buy { background: var(--grn-d); color: var(--grn); border: 1px solid rgba(16,185,129,0.4); }
@@ -179,6 +175,9 @@ tbody tr:last-child td { border-bottom: none; }
 .mc-pct { font-family: var(--mono); font-size: 12px; font-weight: 700; }
 .pulse-anim { animation: dataPulse 0.5s ease-out; }
 @keyframes dataPulse { 0% { filter: brightness(2); transform: scale(1.05); } 100% { filter: brightness(1); transform: scale(1); } }
+
+/* RISK CALCULATOR CSS */
+.risk-calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
 
 .overlay { position: fixed; inset: 0; background: var(--overlay-bg); z-index: 100; display: flex; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(15px); animation: fadeIn 0.3s ease; }
 .modal { background: var(--bg); border: 1px solid var(--b1); border-radius: 32px; padding: 40px; width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto; position: relative; box-shadow: 0 30px 80px rgba(0,0,0,0.8); }
@@ -226,6 +225,7 @@ tbody tr:last-child td { border-bottom: none; }
   .oracle-box { flex-direction: column; align-items: flex-start; padding: 16px; border-radius: 16px; gap:12px; width: 100%; }
   .chart-grid { grid-template-columns: 1fr; gap: 16px; width: 100%; } 
   .form-row { grid-template-columns: 1fr; gap: 16px; }
+  .risk-calc-grid { grid-template-columns: 1fr; gap: 16px; }
   table { font-size: 12px; } th, td { padding: 14px 16px; } .tbl-wrap { margin: 0 -12px; border-radius: 0; border-left: none; border-right: none; width: calc(100% + 24px); }
   .market-grid { grid-template-columns: repeat(3, 1fr); gap: 6px; } .market-card { padding: 10px; border-radius: 8px; } .mc-sym { font-size: 10px; } .mc-price { font-size: 12px; } .mc-pct { font-size: 10px; }
 }
@@ -336,6 +336,27 @@ tbody tr:last-child td { border-bottom: none; }
     <div class="form-group"><label>Exit Protocol</label><input type="text" class="form-input" id="sell-notes"/></div>
   </div>
   <div class="modal-footer"><button class="btn btn-ghost" onclick="closeSell()">Abort</button><button class="btn btn-danger" onclick="submitSell()">Execute</button></div>
+</div>
+</div>
+
+<div class="overlay" id="avg-modal" style="display:none" onclick="if(event.target===this)closeAvg()">
+<div class="modal">
+  <button class="modal-close" onclick="closeAvg()">✕</button>
+  <div class="modal-title">🧮 Averaging Simulator</div>
+  <div class="modal-sub" id="avg-sub" style="color:var(--t2); font-size:13px;">Calculate hypothetical new positions.</div>
+  <input type="hidden" id="avg-sym"/> <input type="hidden" id="avg-cur-qty"/> <input type="hidden" id="avg-cur-price"/>
+  
+  <div class="form-row" style="margin-top:24px;">
+    <div class="form-group"><label>If I buy (Units)...</label><input type="number" class="form-input mono" id="avg-add-qty" placeholder="e.g. 100"/></div>
+    <div class="form-group"><label>At Price (₹)...</label><input type="number" class="form-input mono" id="avg-add-price" placeholder="0.00" step="0.01"/></div>
+  </div>
+  
+  <div style="background:rgba(128,128,128,0.1); padding:20px; border-radius:16px; border:1px solid var(--b1); margin-top:12px;">
+    <div style="font-size:11px; color:var(--t2); text-transform:uppercase; margin-bottom:8px; font-weight:700;">Projected New Average Cost</div>
+    <div id="avg-result-price" class="mono" style="font-size:32px; font-weight:800; color:var(--acc);">₹0.00</div>
+    <div style="font-size:12px; color:var(--t3); margin-top:8px;" id="avg-result-cap">Requires ₹0.00 capital</div>
+  </div>
+  <div class="modal-footer"><button class="btn btn-ghost" onclick="closeAvg()">Close Simulator</button></div>
 </div>
 </div>
 
@@ -508,7 +529,86 @@ async function generateFlexCard() {
   });
 }
 
-let equityChart = null;
+// --- RISK CALCULATOR LOGIC ---
+let currentRiskDir = 'long';
+window.setRiskDir = function(dir) {
+  currentRiskDir = dir;
+  const btnLong = document.getElementById('risk-dir-long');
+  const btnShort = document.getElementById('risk-dir-short');
+  if(dir === 'long') {
+    btnLong.style.background = 'var(--grn-d)'; btnLong.style.color = 'var(--grn)'; btnLong.style.border = '1px solid rgba(16,185,129,0.3)';
+    btnShort.style.background = 'transparent'; btnShort.style.color = 'var(--t2)'; btnShort.style.border = '1px solid transparent';
+  } else {
+    btnShort.style.background = 'var(--red-d)'; btnShort.style.color = 'var(--red)'; btnShort.style.border = '1px solid rgba(244,63,94,0.3)';
+    btnLong.style.background = 'transparent'; btnLong.style.color = 'var(--t2)'; btnLong.style.border = '1px solid transparent';
+  }
+  calculateRisk();
+};
+
+window.calculateRisk = function() {
+  const capInput = document.getElementById('risk-capital');
+  if(!capInput) return;
+
+  const capital = parseFloat(capInput.value);
+  const entry = parseFloat(document.getElementById('risk-entry').value);
+  const maxloss = parseFloat(document.getElementById('risk-maxloss').value);
+  const brokerage = parseFloat(document.getElementById('risk-brokerage').value) || 0;
+
+  const errEl = document.getElementById('risk-error');
+  const succEl = document.getElementById('risk-success');
+
+  if (!capital || !entry || !maxloss || capital <= 0 || entry <= 0 || maxloss <= 0) {
+    errEl.innerHTML = '⚠ Enter valid numbers.'; errEl.style.display = 'block'; succEl.style.display = 'none'; return;
+  }
+
+  const qty = Math.floor(capital / entry);
+  if (qty < 1) { errEl.innerHTML = '⚠ Capital too low for 1 share.'; errEl.style.display = 'block'; succEl.style.display = 'none'; return; }
+
+  const actualCapital = qty * entry;
+  const netLossBudget = maxloss - (2 * brokerage);
+  if (netLossBudget <= 0) { errEl.innerHTML = '⚠ Max loss must exceed brokerage.'; errEl.style.display = 'block'; succEl.style.display = 'none'; return; }
+
+  const riskPerShare = netLossBudget / qty;
+  let slPrice;
+
+  if (currentRiskDir === 'long') {
+    slPrice = entry - riskPerShare;
+    if (slPrice <= 0) { errEl.innerHTML = '⚠ SL price <= 0. Reduce size.'; errEl.style.display = 'block'; succEl.style.display = 'none'; return; }
+  } else {
+    slPrice = entry + riskPerShare;
+  }
+
+  const slDrop = Math.abs(entry - slPrice);
+  const slPct = (slDrop / entry) * 100;
+  const capitalRiskPct = (maxloss / capital) * 100;
+
+  errEl.style.display = 'none';
+  succEl.style.display = 'block';
+
+  document.getElementById('risk-sl-price').innerHTML = INR(slPrice, false);
+  document.getElementById('risk-sl-drop').innerHTML = (currentRiskDir === 'long' ? '▼ ' : '▲ ') + INR(slDrop, false) + ` (${slPct.toFixed(2)}%)`;
+
+  document.getElementById('risk-qty').textContent = qty;
+  document.getElementById('risk-actual-cap').innerHTML = INR(actualCapital, false);
+  document.getElementById('risk-net-loss').innerHTML = INR(maxloss, false);
+  document.getElementById('risk-per-share').innerHTML = INR(riskPerShare, false);
+  document.getElementById('risk-pct').textContent = capitalRiskPct.toFixed(2) + '%';
+  
+  const bar = document.getElementById('risk-bar');
+  const barPct = Math.min(capitalRiskPct * 5, 100);
+  bar.style.width = barPct + '%';
+  
+  let tip = ''; let tipColor = '';
+  if (capitalRiskPct <= 1) { tip = `<strong>Elite Discipline:</strong> Risking ${capitalRiskPct.toFixed(2)}%. Well within the 1% pro rule.`; tipColor = 'var(--grn)'; bar.style.background = 'linear-gradient(90deg, var(--grn), var(--yel))'; } 
+  else if (capitalRiskPct <= 2) { tip = `<strong>Good Management:</strong> ${capitalRiskPct.toFixed(2)}% risk is acceptable.`; tipColor = 'var(--yel)'; bar.style.background = 'linear-gradient(90deg, var(--grn), var(--yel))'; } 
+  else { tip = `<strong>⚠ High Risk:</strong> ${capitalRiskPct.toFixed(2)}% exceeds safe limits. Reduce size.`; tipColor = 'var(--red)'; bar.style.background = 'linear-gradient(90deg, var(--yel), var(--red))'; }
+  
+  const tipEl = document.getElementById('risk-tip');
+  tipEl.innerHTML = tip; tipEl.style.borderLeftColor = tipColor; 
+  tipEl.style.background = tipColor === 'var(--red)' ? 'var(--red-d)' : tipColor === 'var(--yel)' ? 'var(--yel-d)' : 'var(--grn-d)';
+};
+
+let equityChart = null, mcChart = null;
 async function renderDashboard() {
   const el = document.getElementById('page-dashboard'), holdings = Object.values(Store.holdings), ct = Store.closedTrades;
   const realPnl = Store.totalRealizedPnl(), invested = Store.totalInvested(), wins = ct.filter(t=>t.totalPnl>0).length, winRate = ct.length>0?(wins/ct.length*100):0;
@@ -520,15 +620,65 @@ async function renderDashboard() {
       <button class="btn btn-ghost" onclick="generateFlexCard()" style="border-radius:20px; box-shadow:var(--shadow-base);">📸 Share Edge</button>
     </div>
     <div class="oracle-box"><div class="oracle-icon">✧</div><div class="oracle-text">${generateOracleInsights()}</div></div>
+    
     <div class="stats-grid">
       <div class="stat-card"><div class="stat-lbl" style="color:var(--acc)">Active Capital</div><div class="stat-val val-acc" id="dash-inv">${INR(invested)}</div><div class="stat-sub">${holdings.length} active assets</div></div>
       <div class="stat-card"><div class="stat-lbl" style="color:${realPnl>=0?'var(--grn)':'var(--red)'}">Realized Yield</div><div class="stat-val ${pnlGlowClass(realPnl)}" id="dash-real">${INR(realPnl,true)}</div><div class="stat-sub">${ct.length} closed trades</div></div>
       <div class="stat-card"><div class="stat-lbl" style="color:var(--grn)">Win Rate</div><div class="stat-val">${winRate.toFixed(1)}%</div><div class="stat-sub">${wins}W / ${ct.length-wins}L</div></div>
       <div class="stat-card"><div class="stat-lbl" style="color:var(--yel)">Floating P&L</div><div class="stat-val" id="dash-unreal">...</div><div class="stat-sub">Live Link</div></div>
     </div>
+
+    <div class="chart-card" style="margin-bottom: 40px; padding: 24px;">
+      <div class="chart-title" style="margin-bottom: 24px;">⚡ Position Sizer & Risk Calculator</div>
+      <div class="risk-calc-grid">
+        <div>
+          <div class="form-group" style="margin-bottom: 16px;">
+            <div style="display:flex; background:rgba(128,128,128,0.1); padding:4px; border-radius:12px; border:1px solid var(--b1);">
+              <button id="risk-dir-long" class="btn btn-ghost" style="flex:1; border:1px solid rgba(16,185,129,0.3); box-shadow:none; background:var(--grn-d); color:var(--grn);" onclick="setRiskDir('long')">▲ LONG</button>
+              <button id="risk-dir-short" class="btn btn-ghost" style="flex:1; border:1px solid transparent; box-shadow:none;" onclick="setRiskDir('short')">▼ SHORT</button>
+            </div>
+          </div>
+          <div class="form-row" style="margin-bottom: 16px; gap:12px;">
+            <div class="form-group" style="margin:0;"><label>Capital</label><input type="number" id="risk-capital" class="form-input mono" value="100000" oninput="calculateRisk()"></div>
+            <div class="form-group" style="margin:0;"><label>Entry Price</label><input type="number" id="risk-entry" class="form-input mono" value="500" oninput="calculateRisk()"></div>
+          </div>
+          <div class="form-row" style="margin-bottom: 16px; gap:12px;">
+            <div class="form-group" style="margin:0;"><label>Max Loss (₹)</label><input type="number" id="risk-maxloss" class="form-input mono" value="2000" oninput="calculateRisk()"></div>
+            <div class="form-group" style="margin:0;"><label>Brokerage</label><input type="number" id="risk-brokerage" class="form-input mono" value="40" oninput="calculateRisk()"></div>
+          </div>
+        </div>
+
+        <div style="background:rgba(128,128,128,0.05); border:1px solid var(--b1); border-radius:16px; padding:24px; position:relative; overflow:hidden;">
+          <div id="risk-error" style="display:none; color:var(--red); font-size:12px; background:var(--red-d); padding:10px; border-radius:8px; border:1px solid rgba(244,63,94,0.3); margin-bottom:16px;"></div>
+          <div id="risk-success">
+            <div style="text-align:center; border-bottom:1px solid var(--b1); padding-bottom:16px; margin-bottom:16px;">
+              <div style="font-size:10px; color:var(--t2); text-transform:uppercase; letter-spacing:2px; margin-bottom:8px; font-weight:700;">Set Stop Loss At</div>
+              <div id="risk-sl-price" class="mono" style="font-size:36px; font-weight:800; color:var(--red); line-height:1;">₹0.00</div>
+              <div id="risk-sl-drop" class="mono" style="font-size:12px; color:var(--red); opacity:0.8; margin-top:8px;">—</div>
+            </div>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px; margin-bottom:16px;">
+              <div><div style="font-size:9px; color:var(--t3); font-weight:700; text-transform:uppercase;">Quantity</div><div id="risk-qty" class="mono" style="color:var(--grn); font-weight:700; font-size:16px;">0</div></div>
+              <div><div style="font-size:9px; color:var(--t3); font-weight:700; text-transform:uppercase;">Actual Capital</div><div id="risk-actual-cap" class="mono" style="font-weight:700; font-size:16px;">₹0</div></div>
+              <div><div style="font-size:9px; color:var(--t3); font-weight:700; text-transform:uppercase;">Net Max Loss</div><div id="risk-net-loss" class="mono" style="color:var(--red); font-weight:700; font-size:16px;">₹0</div></div>
+              <div><div style="font-size:9px; color:var(--t3); font-weight:700; text-transform:uppercase;">Risk / Share</div><div id="risk-per-share" class="mono" style="color:var(--yel); font-weight:700; font-size:16px;">₹0</div></div>
+            </div>
+            <div style="margin-bottom:12px;">
+              <div style="display:flex; justify-content:space-between; font-size:10px; font-weight:700; color:var(--t2); margin-bottom:6px; text-transform:uppercase;"><span>Capital at Risk</span><span id="risk-pct" class="mono">0%</span></div>
+              <div style="height:6px; background:rgba(128,128,128,0.2); border-radius:4px; overflow:hidden;">
+                <div id="risk-bar" style="height:100%; width:0%; background:linear-gradient(90deg, var(--grn), var(--yel)); transition:width 0.3s;"></div>
+              </div>
+            </div>
+            <div id="risk-tip" style="font-size:11px; color:var(--t2); background:var(--grn-d); border-left:2px solid var(--grn); padding:8px 12px; border-radius:4px; line-height:1.4;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="chart-grid"><div class="chart-card" style="grid-column: span 2;"><div class="chart-title">Alpha Curve</div><div style="height:250px;position:relative"><canvas id="equity-chart"></canvas></div></div></div>
   `;
   drawEquityChart();
+  calculateRisk(); // Initialize calculator
+
   if(holdings.length>0) {
     let totUnreal = 0;
     await Promise.allSettled(holdings.map(async h=>{ const ltp = await fetchPrice(h.symbol); if(ltp!=null) totUnreal += (ltp - h.avgPrice)*h.qty; }));
@@ -700,8 +850,6 @@ function renderPnl() {
   `;
 }
 
-// THE SUPER SURPRISE: MONTE CARLO PROJECTOR
-let mcChart = null;
 function renderAnalytics() { 
   const el = document.getElementById('page-analytics'); const ct = Store.closedTrades;
   if(ct.length < 3) { el.innerHTML = `<div style="text-align:center; padding: 100px 20px; color:var(--t3);">Analytics requires at least 3 closed trades to establish statistical validity.</div>`; return; }
@@ -713,19 +861,16 @@ function renderAnalytics() {
   const avgLoss = losses.length ? grossLoss / losses.length : 0;
   const winRate = wins.length / ct.length;
   
-  // Advanced Metrics
   const profitFactor = grossLoss === 0 ? 99.9 : (grossWin / grossLoss);
   let riskReward = avgLoss === 0 ? 1 : (avgWin / avgLoss);
   let kelly = winRate - ((1 - winRate) / riskReward);
   kelly = Math.max(0, kelly * 100); 
 
-  // Max Drawdown
   let peakRealized = 0; let cum = 0;
   const sortedCt = [...ct].sort((a,b)=>new Date(a.closedDate)-new Date(b.closedDate));
   sortedCt.forEach(t => { cum += t.totalPnl; if(cum > peakRealized) peakRealized = cum; });
   let maxDrawdown = peakRealized - cum;
 
-  // Streak Calculator
   let streak = 0; let streakType = 'None';
   for(let i = sortedCt.length-1; i>=0; i--) {
       let isWin = sortedCt[i].totalPnl > 0;
@@ -735,9 +880,7 @@ function renderAnalytics() {
   }
 
   el.innerHTML = `
-    <div style="margin-bottom: 24px;">
-      <h2 style="font-size: 32px; font-weight: 800; letter-spacing: -1px;">Quantitative Analytics</h2>
-    </div>
+    <div style="margin-bottom: 24px;"><h2 style="font-size: 32px; font-weight: 800; letter-spacing: -1px;">Quantitative Analytics</h2></div>
     <div class="stats-grid">
       <div class="stat-card" style="border-color:var(--purp); box-shadow: 0 0 30px rgba(168,85,247,0.1);"><div class="stat-lbl" style="color:var(--purp)">Kelly Criterion (Opt. Risk)</div><div class="stat-val val-up elegant-glow-up" style="color:var(--purp)">${kelly.toFixed(1)}%</div><div class="stat-sub">Optimal % of capital to risk per trade</div></div>
       <div class="stat-card"><div class="stat-lbl" style="color:var(--acc)">Profit Factor</div><div class="stat-val ${profitFactor>=1.5?'val-up elegant-glow-up':profitFactor>1?'val-acc':'val-dn'}">${profitFactor > 90 ? 'MAX' : profitFactor.toFixed(2)}</div><div class="stat-sub">> 1.5 is Elite Level</div></div>
@@ -749,7 +892,7 @@ function renderAnalytics() {
       <div class="chart-card" style="grid-column: span 2;">
         <div class="chart-title" style="color:var(--purp); display:flex; justify-content:space-between;">
            <span>🎲 Monte Carlo Projector (Next 30 Trades)</span>
-           <span style="font-size:10px; color:var(--t3);">Simulating 1,000 paths...</span>
+           <span style="font-size:10px; color:var(--t3);">Simulating 100 paths...</span>
         </div>
         <div style="height:300px;position:relative"><canvas id="mc-chart"></canvas></div>
       </div>
@@ -760,29 +903,15 @@ function renderAnalytics() {
 
 function drawMonteCarloChart(w, aw, al) {
     const ctx = document.getElementById('mc-chart'); if(!ctx) return; if(mcChart) mcChart.destroy();
-    
-    let baseEquity = Store.totalInvested() + Store.totalRealizedPnl();
-    if(baseEquity <= 0) baseEquity = 100000;
-
-    // Simulate 3 Paths (Optimistic, Expected, Pessimistic)
+    let baseEquity = Store.totalInvested() + Store.totalRealizedPnl(); if(baseEquity <= 0) baseEquity = 100000;
     let paths = { opt: [baseEquity], exp: [baseEquity], pes: [baseEquity] };
-    
     for(let i=1; i<=30; i++) {
-        // Expected Path (Pure Math)
         paths.exp.push(paths.exp[i-1] + (w * aw) - ((1-w) * al));
-        
-        // Optimistic (+15% luck)
-        let wOpt = Math.min(0.95, w + 0.15);
-        paths.opt.push(paths.opt[i-1] + (wOpt * aw) - ((1-wOpt) * al));
-
-        // Pessimistic (-15% luck)
-        let wPes = Math.max(0.05, w - 0.15);
-        paths.pes.push(paths.pes[i-1] + (wPes * aw) - ((1-wPes) * al));
+        let wOpt = Math.min(0.95, w + 0.15); paths.opt.push(paths.opt[i-1] + (wOpt * aw) - ((1-wOpt) * al));
+        let wPes = Math.max(0.05, w - 0.15); paths.pes.push(paths.pes[i-1] + (wPes * aw) - ((1-wPes) * al));
     }
-
     const labels = Array.from({length: 31}, (_, i) => `T+${i}`);
     Chart.defaults.color = '#86868b'; Chart.defaults.font.family = 'Plus Jakarta Sans';
-    
     mcChart = new Chart(ctx, {
         type: 'line',
         data: {
@@ -856,17 +985,32 @@ function importDhanCSV(event) {
   }; reader.readAsText(file);
 }
 function clearAllData() { if(confirm("Are you sure? This cannot be undone.")) { localStorage.removeItem('tb_v4'); Store.rawTxns = []; Store.rebuildLedger(); toast('System Wiped.', 'info'); renderSettings(); } }
-function exportToCSV() {
-  const allTxns = []; Store.rawTxns.forEach(t => allTxns.push([t.symbol, t.type, t.date, t.price, t.qty, t.tag||'Other', t.conviction||3, (t.notes||'').replace(/,/g,' ')]));
-  allTxns.sort((a,b) => new Date(a[2]) - new Date(b[2]));
-  const blob = new Blob(["Symbol,Type,Date,Price,Quantity,Tag,Conviction,Notes\n" + allTxns.map(e=>e.join(",")).join("\n")], {type:'text/csv;charset=utf-8;'});
-  const link = document.createElement("a"); link.setAttribute("href", URL.createObjectURL(blob)); link.setAttribute("download", `TradeBook_${new Date().toISOString().split('T')[0]}.csv`); link.click();
-}
 
-function openBuy() { document.getElementById('buy-stock-input').value=''; document.getElementById('buy-price').value=''; document.getElementById('buy-qty').value=''; document.getElementById('buy-date').value=new Date().toISOString().split('T')[0]; document.getElementById('buy-modal').style.display='flex'; }
+document.getElementById('buy-stock-input').addEventListener('input', function() {
+  const q = this.value; const dd = document.getElementById('buy-stock-dd'); buySelected = null;
+  if(!q) { dd.style.display='none'; return; }
+  dd.innerHTML = '<div class="stock-item" style="color:var(--t3); justify-content:center;">Querying Live Market...</div>'; dd.style.display = 'block';
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(async () => {
+    let res = await searchNSE(q);
+    const isExactMatch = res.some(r => r.symbol === q.toUpperCase());
+    if (!isExactMatch) { res.unshift({ symbol: q.toUpperCase(), name: 'Custom / SME Stock', exchange: 'NSE', isCustom: true }); }
+    dd.innerHTML = res.map(r => `
+      <div class="stock-item ${r.isCustom ? 'custom-item' : ''}" onclick="selectStock('${r.symbol}')">
+        <div style="display:flex; align-items:center; gap:12px;">
+           <div class="sym">${r.symbol}</div>
+           <div style="font-size:12px; color:var(--t2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:120px;">${r.name}</div>
+        </div>
+        <div class="badge ${r.exchange === 'NSE' ? 'badge-buy' : 'badge-open'}">${r.exchange || 'NSE'}</div>
+      </div>
+    `).join('');
+  }, 300); 
+});
+function selectStock(s) { buySelected = s; document.getElementById('buy-stock-input').value = s; document.getElementById('buy-stock-dd').style.display = 'none'; fetchPrice(s).then(l => { if (l) document.getElementById('buy-price').value = l.toFixed(2); }); }
+function openBuy() { buySelected=null; document.getElementById('buy-stock-input').value=''; document.getElementById('buy-price').value=''; document.getElementById('buy-qty').value=''; document.getElementById('buy-date').value=new Date().toISOString().split('T')[0]; document.getElementById('buy-modal').style.display='flex'; }
 function closeBuy() { document.getElementById('buy-modal').style.display='none'; }
 function submitBuy() {
-  const sym = document.getElementById('buy-stock-input').value.trim().toUpperCase();
+  const sym = buySelected || document.getElementById('buy-stock-input').value.trim().toUpperCase();
   const pr=document.getElementById('buy-price').value, qt=document.getElementById('buy-qty').value, dt=document.getElementById('buy-date').value, nt=document.getElementById('buy-notes').value, tg=document.getElementById('buy-tag').value;
   const conviction = document.querySelector('input[name="rating"]:checked').value;
   if(!sym||!pr||!qt||!dt) return toast('Data missing','error');
@@ -893,7 +1037,7 @@ function submitEdit() {
 }
 function deleteTrade() { const ts = document.getElementById('edit-ts').value; if(confirm("Confirm overwrite?")) { Store.deleteTxn(ts); toast('Dropped', 'info'); closeEdit(); renderPage(currentPage); } }
 
-// RESTORED BUY/SELL EVENT LISTENERS
+// RESTORED EVENT LISTENERS FOR BUY/SELL BUTTONS
 document.getElementById('btn-buy').addEventListener('click', openBuy);
 document.getElementById('btn-sell').addEventListener('click', () => {
   if(Object.keys(Store.holdings).length > 0) openSell();
