@@ -373,14 +373,28 @@ tbody tr:last-child td { border-bottom: none; }
 </div>
 <script>
 // ==========================================================================
-// 1. CORE DATA STORE & STATE MANAGEMENT
+// 1. CORE DATA STORE & DATA RECOVERY ENGINE
 // ==========================================================================
 const Store = {
   rawTxns: [], holdings: {}, closedTrades: [], baseCapital: 100000,
   load() { 
       try { 
-          const d = JSON.parse(localStorage.getItem('tb_v5_pro')); 
-          if(d) { this.rawTxns = d.rawTxns || []; this.baseCapital = d.baseCapital || 100000; } 
+          // Attempt to load new V5 Pro database
+          let d = JSON.parse(localStorage.getItem('tb_v5_pro')); 
+          
+          // AUTO-RECOVERY: If empty, look for legacy V4 data and migrate it!
+          if(!d || !d.rawTxns || d.rawTxns.length === 0) {
+              const legacyData = JSON.parse(localStorage.getItem('tb_v4'));
+              if(legacyData && legacyData.rawTxns && legacyData.rawTxns.length > 0) {
+                  d = legacyData;
+                  window.toast('Legacy data automatically restored!', 'success');
+              }
+          }
+          
+          if(d) { 
+              this.rawTxns = d.rawTxns || []; 
+              this.baseCapital = d.baseCapital || 100000; 
+          } 
       } catch(e) {} 
       this.rebuildLedger(); 
   },
@@ -412,6 +426,8 @@ const Store = {
   totalInvested() { return Object.values(this.holdings).reduce((a,h)=>a+h.qty*h.avgPrice,0); },
   totalRealizedPnl() { return this.closedTrades.reduce((a,t)=>a+t.totalPnl,0); }
 };
+
+window.Store = Store;
 Store.load();
 
 // ==========================================================================
@@ -429,7 +445,7 @@ window.toast = function(msg, type='info') {
 };
 
 // ==========================================================================
-// 3. ROBUST SEARCH & PRICE API (api.allorigins.win)
+// 3. INSTANT SME SEARCH API 
 // ==========================================================================
 let searchTimer = null; let buySelected = null;
 const searchInput = document.getElementById('buy-stock-input');
@@ -438,14 +454,27 @@ const searchDd = document.getElementById('buy-stock-dd');
 searchInput.addEventListener('input', function() {
   const q = this.value.trim().toUpperCase(); buySelected = null;
   if(!q) { searchDd.style.display='none'; return; }
-  searchDd.innerHTML = '<div class="stock-item" style="color:var(--t3); justify-content:center;">Querying Data Matrix...</div>'; searchDd.style.display = 'block';
-  clearTimeout(searchTimer);
   
+  // INSTANT RENDER: Force Add button immediately for SME stocks
+  let instantHTML = `
+    <div class="stock-item" onclick="window.selectStock('${q}')" style="background:rgba(16,185,129,0.1); border-bottom:1px solid rgba(16,185,129,0.3);">
+      <div style="display:flex; align-items:center; gap:12px; min-width:0;">
+         <div class="sym" style="flex-shrink:0;">${q}</div>
+         <div style="font-size:12px; color:var(--grn); white-space:nowrap;">Force Add SME/Custom Ticker</div>
+      </div>
+      <div class="badge badge-buy" style="flex-shrink:0;">NSE</div>
+    </div>
+  `;
+  
+  searchDd.innerHTML = instantHTML + '<div style="padding:14px;text-align:center;font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:1px;">Querying Network...</div>'; 
+  searchDd.style.display = 'block';
+  
+  clearTimeout(searchTimer);
   searchTimer = setTimeout(async () => {
     try {
-      const url = encodeURIComponent(`https://query2.finance.yahoo.com/v1/finance/search?q=${q}&quotesCount=6&country=India`);
+      const url = encodeURIComponent(`https://query2.finance.yahoo.com/v1/finance/search?q=${q}&quotesCount=5&country=India`);
       const res = await fetch(`https://api.allorigins.win/get?url=${url}`);
-      if(!res.ok) throw new Error("Network proxy failed");
+      if(!res.ok) return;
       const rawData = await res.json();
       const data = JSON.parse(rawData.contents);
       
@@ -453,9 +482,11 @@ searchInput.addEventListener('input', function() {
       if (data && data.quotes) { 
         results = data.quotes.filter(q => q.exchange === 'NSI' || q.exchange === 'BSE' || (q.symbol && q.symbol.endsWith('.NS'))).map(q => ({ symbol: q.symbol.replace('.NS', '').replace('.BO', ''), name: q.shortname || q.longname || q.symbol, exchange: q.exchange === 'BSE' ? 'BSE' : 'NSE' })); 
       }
-      if (!results.some(r => r.symbol === q)) results.unshift({ symbol: q, name: 'Custom Entry', exchange: 'NSE' });
       
-      searchDd.innerHTML = results.map(r => `
+      // Filter out exact matches so we don't duplicate the force add button
+      results = results.filter(r => r.symbol !== q);
+      
+      const apiHTML = results.map(r => `
         <div class="stock-item" onclick="window.selectStock('${r.symbol}')">
           <div style="display:flex; align-items:center; gap:12px; min-width:0;">
              <div class="sym" style="flex-shrink:0;">${r.symbol}</div>
@@ -464,9 +495,9 @@ searchInput.addEventListener('input', function() {
           <div class="badge badge-buy" style="flex-shrink:0;">${r.exchange}</div>
         </div>
       `).join('');
-    } catch(e) {
-      searchDd.innerHTML = `<div class="stock-item" onclick="window.selectStock('${q}')"><div class="sym">${q}</div><div class="badge badge-buy">FORCE ADD</div></div>`;
-    }
+      
+      searchDd.innerHTML = instantHTML + apiHTML;
+    } catch(e) {}
   }, 250); 
 });
 
@@ -489,32 +520,26 @@ async function fetchPrice(symbol) {
 }
 
 // ==========================================================================
-// 4. HARDWIRED STATIC EVENT LISTENERS (Guaranteed Execution)
+// 4. HARDWIRED STATIC EVENT LISTENERS
 // ==========================================================================
 document.addEventListener('DOMContentLoaded', () => {
-    
-    // Topbar Buttons
     document.getElementById('btn-buy').addEventListener('click', openBuyModal);
     document.getElementById('btn-sell').addEventListener('click', openSellModal);
     document.getElementById('btn-theme').addEventListener('click', toggleTheme);
     document.getElementById('btn-ghost').addEventListener('click', toggleGhostMode);
     document.getElementById('btn-menu').addEventListener('click', (e) => { document.getElementById('sidebar').classList.add('open'); e.stopPropagation(); });
     
-    // Sidebar Navigation
     document.querySelectorAll('.sb-nav a').forEach(a => { 
         a.addEventListener('click', () => { navigate(a.dataset.page); document.getElementById('sidebar').classList.remove('open'); }); 
     });
     
-    // Close sidebar on outside click (Mobile)
     document.addEventListener('click', (e) => { const sidebar = document.getElementById('sidebar'); if (window.innerWidth <= 768 && sidebar.classList.contains('open') && !sidebar.contains(e.target) && !document.getElementById('btn-menu').contains(e.target)) { sidebar.classList.remove('open'); } });
 
-    // Username Editor
     const nameEl = document.getElementById('user-name');
     nameEl.textContent = localStorage.getItem('tb_username') || "Bhargav AI";
     nameEl.addEventListener('blur', () => localStorage.setItem('tb_username', nameEl.textContent));
     nameEl.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); nameEl.blur(); } });
 
-    // Modals - Close Triggers
     document.getElementById('close-buy-x').addEventListener('click', closeModals);
     document.getElementById('close-buy-btn').addEventListener('click', closeModals);
     document.getElementById('close-sell-x').addEventListener('click', closeModals);
@@ -524,22 +549,18 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('close-edit-x').addEventListener('click', closeModals);
     document.getElementById('close-edit-btn').addEventListener('click', closeModals);
 
-    // Modals - Outside Click
     document.querySelectorAll('.overlay').forEach(overlay => {
         overlay.addEventListener('click', (e) => { if(e.target === overlay) closeModals(); });
     });
 
-    // Modals - Submit Triggers
     document.getElementById('submit-buy-btn').addEventListener('click', submitBuy);
     document.getElementById('submit-sell-btn').addEventListener('click', submitSell);
     document.getElementById('submit-edit-btn').addEventListener('click', submitEdit);
     document.getElementById('delete-trade-btn').addEventListener('click', deleteTrade);
     
-    // Avg Simulator inputs
     document.getElementById('avg-add-qty').addEventListener('input', updateAvgSim);
     document.getElementById('avg-add-price').addEventListener('input', updateAvgSim);
     
-    // Boot
     navigate('dashboard');
 });
 
@@ -602,7 +623,7 @@ function navigate(page) {
 }
 
 // ==========================================================================
-// 5. VIEW RENDERING (DASHBOARD, P&L, PORTFOLIO, ETC)
+// 5. VIEW RENDERING 
 // ==========================================================================
 function renderPage(page) {
   if(page==='dashboard') renderDashboard(); 
@@ -631,26 +652,28 @@ window.generateFlexCard = function() {
   const myName = localStorage.getItem('tb_username') || "Bhargav AI";
   const exportDiv = document.getElementById('flex-export');
   exportDiv.innerHTML = `
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
-      <h2 style="font-size:32px; font-weight:800; letter-spacing:-1px; margin:0;">${myName}</h2>
-      <div style="font-family:'Caveat', cursive; font-size:28px; color:var(--acc);">Verified Edge</div>
-    </div>
-    <div style="display:flex; gap:20px; margin-bottom:20px;">
-      <div style="background:rgba(128,128,128,0.1); padding:20px; border-radius:16px; flex:1;">
-        <div style="font-size:11px; color:var(--t2); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">Win Rate</div>
-        <div style="font-size:36px; font-weight:800; color:var(--grn);">${winRate.toFixed(1)}%</div>
+    <div class="fe-content">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
+        <h2 style="font-size:32px; font-weight:800; letter-spacing:-1px; margin:0;">${myName}</h2>
+        <div style="font-family:'Caveat', cursive; font-size:24px; color:#a855f7;">Verified Edge</div>
       </div>
-      <div style="background:rgba(128,128,128,0.1); padding:20px; border-radius:16px; flex:1;">
-        <div style="font-size:11px; color:var(--t2); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">Trades Taken</div>
-        <div style="font-size:36px; font-weight:800; color:var(--t1);">${ct.length}</div>
+      <div style="display:flex; gap:20px; margin-bottom:30px;">
+        <div style="background:rgba(255,255,255,0.05); padding:20px; border-radius:16px; flex:1; border:1px solid rgba(255,255,255,0.1);">
+          <div style="font-size:12px; color:#a1a1aa; text-transform:uppercase; letter-spacing:1px;">Win Rate</div>
+          <div style="font-size:36px; font-weight:800; color:#10b981;">${winRate.toFixed(1)}%</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.05); padding:20px; border-radius:16px; flex:1; border:1px solid rgba(255,255,255,0.1);">
+          <div style="font-size:12px; color:#a1a1aa; text-transform:uppercase; letter-spacing:1px;">Trades Executed</div>
+          <div style="font-size:36px; font-weight:800; color:#fff;">${ct.length}</div>
+        </div>
       </div>
-    </div>
-    <div style="background:rgba(128,128,128,0.1); padding:20px; border-radius:16px;">
-        <div style="font-size:11px; color:var(--t2); text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">AI Insight</div>
-        <div style="font-size:14px; font-weight:600; line-height:1.5;">${generateOracleInsights()}</div>
+      <div style="background:rgba(255,255,255,0.05); padding:20px; border-radius:16px; border:1px solid rgba(255,255,255,0.1);">
+        <div style="font-size:11px; color:#a1a1aa; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">AI Insight</div>
+        <div style="font-size:14px; font-weight:600; line-height:1.5; color:#fff;">${generateOracleInsights()}</div>
+      </div>
     </div>
   `;
-  html2canvas(exportDiv, { backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--bg').trim(), scale: 2 }).then(canvas => {
+  html2canvas(exportDiv, { backgroundColor: '#050510', scale: 2 }).then(canvas => {
     let link = document.createElement('a'); link.download = 'MyEdge.png'; link.href = canvas.toDataURL(); link.click(); toast('Image saved! Flex on them.', 'success');
   });
 };
@@ -673,9 +696,11 @@ window.calculateRisk = function() {
   if (!capital || !entry || !maxloss || capital <= 0 || entry <= 0 || maxloss <= 0) { errEl.innerHTML = '⚠ Enter valid numbers.'; errEl.style.display = 'block'; succEl.style.display = 'none'; return; }
   const buyingPower = capital * leverage; const qty = Math.floor(buyingPower / entry);
   if (qty < 1) { errEl.innerHTML = '⚠ Capital too low for 1 share.'; errEl.style.display = 'block'; succEl.style.display = 'none'; return; }
+  
   const positionSize = qty * entry; const marginImpact = positionSize / leverage;
   const netLossBudget = maxloss - (2 * brokerage);
   if (netLossBudget <= 0) { errEl.innerHTML = '⚠ Max loss must exceed brokerage.'; errEl.style.display = 'block'; succEl.style.display = 'none'; return; }
+
   const riskPerShare = netLossBudget / qty; let slPrice;
   if (currentRiskDir === 'long') { slPrice = entry - riskPerShare; if (slPrice <= 0) { errEl.innerHTML = '⚠ SL price <= 0. Reduce size.'; errEl.style.display = 'block'; succEl.style.display = 'none'; return; } } else { slPrice = entry + riskPerShare; }
   
@@ -699,7 +724,7 @@ let equityChart = null;
 async function renderDashboard() {
   const el = document.getElementById('page-dashboard'), holdings = Object.values(Store.holdings), ct = Store.closedTrades;
   const realPnl = Store.totalRealizedPnl(), invested = Store.totalInvested(), wins = ct.filter(t=>t.totalPnl>0).length, winRate = ct.length>0?(wins/ct.length*100):0;
-  const myName = localStorage.getItem('tb_username') || 'Bhargav AI';
+  const myName = localStorage.getItem('tb_username') ? localStorage.getItem('tb_username').split("'")[0] : 'Bhargav AI';
 
   el.innerHTML = `
     <div style="margin-bottom: 32px; display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:16px;">
@@ -742,7 +767,7 @@ async function renderDashboard() {
         </div>
       </div>
     </div>
-    <div class="chart-grid"><div class="chart-card" style="grid-column: span 2;"><div class="chart-title">Equity Curve</div><div style="height:250px;position:relative"><canvas id="equity-chart"></canvas></div></div></div>
+    <div class="chart-grid"><div class="chart-card" style="grid-column: span 2;"><div class="chart-title">Alpha Curve</div><div style="height:250px;position:relative"><canvas id="equity-chart"></canvas></div></div></div>
   `;
   drawEquityChart(); window.calculateRisk(); 
   
@@ -858,7 +883,6 @@ function renderPnl() {
   const bestStock = sortedStocks[0]; const worstStock = sortedStocks[sortedStocks.length-1];
   let maxAbsPnl = Math.max(...sortedStocks.map(s => Math.abs(s.pnl))); if(maxAbsPnl === 0) maxAbsPnl = 1;
 
-  // STRICT FLEXBOX TO PREVENT MOBILE BLEED
   let leaderboardRows = sortedStocks.map(s => {
      let width = (Math.abs(s.pnl) / maxAbsPnl) * 100; let color = s.pnl >= 0 ? 'var(--grn)' : 'var(--red)';
      return `
@@ -955,15 +979,15 @@ window.submitEdit = function() {
 };
 window.deleteTrade = function() { const ts = document.getElementById('edit-ts').value; if(confirm("Confirm overwrite?")) { Store.deleteTxn(ts); window.toast('Dropped', 'info'); window.closeModals(); renderPage(currentPage); } };
 
-// --- 12. SETTINGS / DHAN IMPORT ---
+// --- 12. SETTINGS / DB IMPORT ---
 function renderSettings() {
   document.getElementById('page-settings').innerHTML = `
     <div class="stats-grid" style="grid-template-columns:1fr;max-width:600px;">
       <div class="stat-card" style="border-color:var(--purp); box-shadow: 0 0 30px rgba(168,85,247,0.1);">
-        <div class="stat-lbl" style="color: var(--purp)">Dhan Parser Engine</div>
-        <div class="stat-sub" style="margin:8px 0 24px">Import your Trade Book CSV to sync history.</div>
+        <div class="stat-lbl" style="color: var(--purp)">Database Import Engine</div>
+        <div class="stat-sub" style="margin:8px 0 24px">Import your TradeBook Backup or Dhan CSV to sync history.</div>
         <input type="file" id="dhan-csv-input" accept=".csv" style="display:none;" onchange="window.importDhanCSV(event)"/>
-        <button class="btn btn-primary" style="width:100%" onclick="document.getElementById('dhan-csv-input').click()">Upload Matrix Data</button>
+        <button class="btn btn-primary" style="width:100%" onclick="document.getElementById('dhan-csv-input').click()">Upload Backup CSV</button>
       </div>
       <div class="stat-card"><div class="stat-lbl" style="color:var(--red)">System Purge</div><div class="stat-sub" style="margin:8px 0 24px; color:var(--t3)">Permanently destroy all local files.</div><button class="btn btn-danger" style="width:100%" onclick="if(confirm('Are you sure?')) { localStorage.removeItem('tb_v5_pro'); window.Store.rawTxns = []; window.Store.rebuildLedger(); window.location.reload(); }">Format Drive</button></div>
     </div>`;
@@ -977,7 +1001,7 @@ window.importDhanCSV = function(event) {
   reader.onload = function(e) {
     const lines = e.target.result.split('\n'); if (lines.length < 2) return window.toast('Invalid File Matrix', 'error');
     const headers = lines[0].toLowerCase().replace(/["']/g, '').split(',');
-    let symIdx = headers.findIndex(h => h === 'name' || h.includes('symbol')); let typeIdx = headers.findIndex(h => h === 'buy/sell' || h.includes('trade type')); let dateIdx = headers.findIndex(h => h === 'date' || h.includes('trade date')); let timeIdx = headers.findIndex(h => h === 'time'); let qtyIdx = headers.findIndex(h => h === 'quantity/lot' || h.includes('qty')); let priceIdx = headers.findIndex(h => h === 'trade price' || h.includes('price')); let statusIdx = headers.findIndex(h => h === 'status');
+    let symIdx = headers.findIndex(h => h === 'name' || h.includes('symbol')); let typeIdx = headers.findIndex(h => h === 'buy/sell' || h.includes('trade type') || h === 'type'); let dateIdx = headers.findIndex(h => h === 'date' || h.includes('trade date')); let timeIdx = headers.findIndex(h => h === 'time'); let qtyIdx = headers.findIndex(h => h === 'quantity/lot' || h.includes('qty') || h === 'quantity'); let priceIdx = headers.findIndex(h => h === 'trade price' || h.includes('price')); let statusIdx = headers.findIndex(h => h === 'status');
     let rawTrades = [];
     for(let i = 1; i < lines.length; i++) {
       if(!lines[i].trim()) continue; let row = lines[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(s=>s.replace(/["']/g, '').trim());
@@ -995,7 +1019,7 @@ window.importDhanCSV = function(event) {
       let tradeTs = new Date(isoDate + 'T' + (row[timeIdx]||'00:00:00')).getTime() || (Date.now() + c);
       const pr = parseFloat(row[priceIdx]); const qt = parseInt(row[qtyIdx]);
       if(!sym || isNaN(pr) || isNaN(qt)) return;
-      Store.rawTxns.push({ ts: tradeTs, type, symbol: sym, price: pr, qty: qt, date: isoDate, notes: 'DHAN_SYNC', tag: 'Dhan Import', conviction: 3 }); c++;
+      Store.rawTxns.push({ ts: tradeTs, type, symbol: sym, price: pr, qty: qt, date: isoDate, notes: 'IMPORTED', tag: 'Imported', conviction: 3 }); c++;
     });
     Store.rebuildLedger(); Store.save(); event.target.value = ''; window.toast(`Parsed ${c} records`, 'success'); renderPage(currentPage);
   }; reader.readAsText(file);
